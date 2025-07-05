@@ -1,0 +1,11 @@
+app = "profinityapp"
+
+[env]
+  NGROK_AUTHTOKEN = "your_ngrok_token"
+
+[[services]]
+  internal_port = 18080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 18080

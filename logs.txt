@@ -1,0 +1,266 @@
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:13Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:14Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:14Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:14Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:15Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:15Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:15Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:15Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:16Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:17Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:17Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:17Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:18Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:19Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:19Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:20Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:20Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:21Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:21Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:21Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:21Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:21Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:22Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:23Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:23Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:25Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:25Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:26Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:28Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:28Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:28Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:28Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:28Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:28Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:29Z[0m proxy [32mord[0m [[31merror[0m][PR03] could not find a good candidate within 20 attempts at load balancing. last error: [PR01] no known healthy instances found for route tcp/443. (hint: is your app shut down? is there an ongoing deployment with a volume or are you using the 'immediate' strategy? have your app's instances all reached their hard limit?)
+[2m2025-07-05T02:39:35Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:37Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:37Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:37Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:37Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:38Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:43Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:44Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:44Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:44Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:45Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:45Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:45Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:46Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:39:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PR04] could not find a good candidate within 20 attempts at load balancing
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.409304434s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.296884234s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.321546611s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.461830269s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.321550958s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335066224s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335267425s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335236236s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335226829s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335281892s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335297081s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.47545412s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.4753957s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335299957s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475405889s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335339282s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335379187s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475482003s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475550754s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335363768s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335310717s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335432318s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335372204s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.47561204s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335513281s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475582183s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335311598s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475613653s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475584447s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475615196s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475641976s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.475610517s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.335453968s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476722683s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336522112s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336703325s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476741298s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476806812s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476798516s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336686763s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336679911s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.33672223s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476898406s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476788027s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336699307s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336628202s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476849523s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476902663s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476843762s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336738942s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476893036s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476890621s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476995249s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336800519s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336820517s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336852007s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336844422s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 11.476987825s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336798866s so far)
+[2m2025-07-05T02:44:44Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 6.336850413s so far)
+[2m2025-07-05T02:44:45Z[0m app[78196ec92726e8] [32mord[0m [[34minfo[0m][33m WARN[0m could not unmount /rootfs: EINVAL: Invalid argument
+[2m2025-07-05T02:44:45Z[0m app[78196ec92726e8] [32mord[0m [[34minfo[0m][    3.615008] reboot: Restarting system
+[2m2025-07-05T02:44:45Z[0m runner[78196ec92726e8] [32mord[0m [[34minfo[0m]machine has reached its max restart count of 10
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.591587395s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.595334762s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669384339s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669398776s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669376785s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669454812s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669426729s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 14.669446066s)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.263203675s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.29018863s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.290197447s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.290334577s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.385132118s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.39969626s so far)
+[2m2025-07-05T02:44:48Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.399873155s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.412047561s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.450291518s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452169945s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452065688s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452138315s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452077561s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452189242s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452243074s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.45217736s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.45229901s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452213588s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452318808s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452392878s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452377057s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452327214s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.452281557s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 10.45244146s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 5.351834771s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 5.513570452s so far)
+[2m2025-07-05T02:44:49Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 5.591042671s so far)
+[2m2025-07-05T02:44:50Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.43156098s)
+[2m2025-07-05T02:44:50Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.461069995s)
+[2m2025-07-05T02:44:50Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.514788599s)
+[2m2025-07-05T02:44:50Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.539369091s)
+[2m2025-07-05T02:44:50Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.540770825s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.566155589s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.566401094s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.578645513s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.589498958s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.591633941s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.591551094s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.591734722s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.591571182s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.591800626s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593742474s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593690616s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593800053s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.59379829s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.59378248s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593752573s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593844578s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.5938091s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593942112s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593898129s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593931131s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593963533s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[31merror[0m][PM05] failed to connect to machine: gave up after 15 attempts (in 17.593974944s)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 7.740732657s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 7.76785933s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 7.826836343s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 7.879897941s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 7.928606248s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.361114049s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.362264067s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.373108614s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.375822755s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.387260055s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.387114961s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.388341233s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.40182563s so far)
+[2m2025-07-05T02:44:51Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.401845668s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.425223773s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453223549s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453139609s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453247294s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453283813s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453280877s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453224s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453324891s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453219782s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453389954s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453383021s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.453266419s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454457115s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454457936s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454627928s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454537087s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454624562s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454596619s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454518492s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454611818s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454627628s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454667434s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.454657204s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]waiting for machine to be reachable on 0.0.0.0:18080 (waited 13.45455474s so far)
+[2m2025-07-05T02:44:52Z[0m proxy[78196ec92726e8] [32mord[0m [[34minfo[0m]Starting machine
+[2m2025-07-05T02:44:52Z[0m app[78196ec92726e8] [32mord[0m [[34minfo[0m]2025-07-05T02:44:52.177169064 [01JZC65XX7908SETCDX4ZSJJV6:main] Running Firecracker v1.7.0
+[2m2025-07-05T02:44:53Z[0m app[78196ec92726e8] [32mord[0m [[34minfo[0m][32m INFO[0m Starting init (commit: d0572327e)...
