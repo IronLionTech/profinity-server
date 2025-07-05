@@ -1,0 +1,7 @@
+<svg id="CONFIG_RIGHT" xmlns="http://www.w3.org/2000/svg" width="35" height="17" viewBox="0 0 35 17">
+  <rect id="Rectangle_17" data-name="Rectangle 17" width="35" height="17" rx="8" fill="#575757"/>
+  <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(20 2)" fill="#fff" stroke="#fff" stroke-width="2">
+    <circle cx="6.5" cy="6.5" r="6.5" stroke="none"/>
+    <circle cx="6.5" cy="6.5" r="5.5" fill="none"/>
+  </g>
+</svg>

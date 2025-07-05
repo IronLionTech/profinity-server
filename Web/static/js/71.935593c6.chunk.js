@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkprofinity_web=self.webpackChunkprofinity_web||[]).push([[71],{6071:(e,r,c)=>{c.d(r,{createArchitectureServices:()=>i.S});var i=c(6677);c(6660)}}]);

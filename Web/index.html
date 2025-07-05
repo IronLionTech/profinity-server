@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profinity</title>
+  <base href="/"/>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #83888f;
+      color: black;
+      font-family: Arial, sans-serif;
+    }
+
+    #ironlion-dashboard {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      background-color: #83888f;
+      position: relative;
+    }
+
+    .navbar {
+      display: flex;
+      background-color: #232c3a;
+    }
+
+    .navbar button {
+      flex: 1;
+      padding: 15px;
+      background: #232c3a;
+      color: white;
+      font-size: 1em;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .navbar button:hover {
+      background: #1b222e;
+    }
+
+    .navbar button.active {
+      background: #474f5a;
+      color: white;
+      font-weight: bold;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      background-color: #83888f;
+      position: relative;
+    }
+
+    .clock {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 0.95em;
+      color: black;
+    }
+
+    h2 {
+      color: black;
+    }
+
+    .tile-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tile {
+      background-color: #222;
+      border: 1px solid #555;
+      border-radius: 10px;
+      width: 250px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+    }
+
+    .tile h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    .tile .value {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: right;
+      margin-bottom: 5px;
+      color: green;
+    }
+
+    .tile .unit {
+      font-size: 14px;
+      text-align: right;
+      color: #777;
+    }
+    .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* or 100vh if content should fill the screen */
+}
+
+#content {
+  height: 100vh; /* needed if you want vertical centering on full screen */
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+}
+.tile.spacer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #aaa;
+  background-color: #222;
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+  height: auto;
+}
+
+/* Adjust spans: tile width = 250px, gap = 20px */
+.tile.spacer.span-1 {
+  flex-basis: 250px;
+}
+
+.tile.spacer.span-2 {
+  flex-basis: calc(2 * 250px + 20px);
+}
+
+.tile.spacer.span-3 {
+  flex-basis: calc(3 * 250px + 2 * 20px);
+}
+
+.tile.spacer.span-4 {
+  flex-basis: calc(4 * 250px + 3 * 20px);
+}
+
+  </style>
+
+  <script>
+function parseRange(rangeStr) {
+  const match = rangeStr.match(/^#<(\d+(?:\.\d+)?)<v<(?:(\d+(?:\.\d+)?))>$/);
+  if (!match) return null;
+  return [parseFloat(match[1]), parseFloat(match[2])];
+}
+
+const tileTimers = {};
+
+function updateTile(i, value, driver, rangeStr) {
+  const valElem = document.getElementById(`val${i}`);
+  if (!valElem) return;
+
+  const range = parseRange(rangeStr);
+  const numericValue = parseFloat(value);
+
+  const inRange = range && !isNaN(numericValue) && numericValue >= range[0] && numericValue <= range[1];
+
+  if (!driver || inRange) {
+    clearTimeout(tileTimers[i]);
+    valElem.style.color = 'green';
+    document.body.style.animation = 'none';
+    return;
+  }
+
+  valElem.style.color = 'yellow';
+
+  tileTimers[i] = setTimeout(() => {
+    valElem.style.color = 'red';
+    document.body.style.animation = 'bgFlash 1s infinite alternate';
+  }, 5000);
+}
+
+// Background flashing animation
+const style = document.createElement('style');
+style.innerHTML = `
+@keyframes bgFlash {
+  from { background-color: #83888f; }
+  to { background-color: white; }
+}`;
+document.head.appendChild(style);
+
+
+
+    if (window.location.pathname.startsWith("/dashboard")) {
+      document.addEventListener("DOMContentLoaded", () => {
+        const root = document.getElementById("root");
+        if (root) root.remove();
+
+        const dashboard = document.createElement("div");
+        dashboard.id = "ironlion-dashboard";
+        dashboard.innerHTML = `
+          <div class="navbar">
+            <button id="tabLive" class="active">Live Data</button>
+            <button id="tabLogs">Logs</button>
+            <button id="tabGhi">GHI</button>
+          </div>
+          <div class="content" id="tabContent">
+            <h2>Live Telemetry</h2>
+            <p>Welcome to the IronLion Dashboard. This is a blank slate.</p>
+          </div>
+          <div class="clock">
+            <span id="liveClock">--:--:--</span>
+          </div>
+        `;
+        document.body.appendChild(dashboard);
+
+        setInterval(() => {
+          document.getElementById("liveClock").textContent = new Date().toLocaleTimeString();
+        }, 1000);
+
+        const content = document.getElementById("tabContent");
+
+        document.getElementById("tabLive").onclick = () => {
+          content.innerHTML = `
+            <h2>Live Telemetry</h2>
+            <div class="tile-container" id="tileContainer"></div>
+          `;
+
+          const container = document.getElementById("tileContainer");
+          const endpoints = [
+  ["__spacer__|span-4|Driver"],
+  ["SOC Percent", "https://ironlionstelemetry.org/api/v2/Data/BMS/PackStateOfCharge/SOCPercent", false, "#<v<#"],
+  ["SOC Ah", "https://ironlionstelemetry.org/api/v2/Data/BMS/PackStateOfCharge/SOCAh", false, "#<v<#"],
+  ["Pack Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/PackVoltageCurrent/Voltage", false, "#<v<#"],
+  ["Watt-hour Battery", null, true, null],
+  ["Max Cell Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltage", false, "#<v<#"],
+  ["Max Cell Temperature", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellTemp/MaxCellTemp", false, "#<v<#"],
+  ["Cell Temperature Margin", "https://ironlionstelemetry.org/api/v2/Data/BMS/ChargerControlInformation/CellTemperatureMargin", false, "#<v<#"],
+  ["Min Cell Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltage", false, "#<v<#"],
+  ["Pack Current", "https://ironlionstelemetry.org/api/v2/Data/BMS/PackVoltageCurrent/Current", false, "#<v<#"],
+  ["Net Amps", null, true, null],
+  ["Watt Panels", null, true, null],
+  ["Panel Amps", null, true, null],
+  ["__spacer__|span-4|Battery"],
+  
+  ["Status Cell Over Temperature", "https://ironlionstelemetry.org/api/v2/Data/BMS/BatteryPackStatus/StatusCellOverTemp", false, "#<v<#"],
+  ["Status Cell Under Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/BatteryPackStatus/StatusCellUnderVolt", false, "#<v<#"],
+  ["Status Cell Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/BatteryPackStatus/StatusCellOverVolt", false, "#<v<#"],
+  ["Total Pack Capacity", "https://ironlionstelemetry.org/api/v2/Data/BMS/ChargerControlInformation/TotalPackCapacity", false, "#<v<#"],
+  ["Discharging Cell Voltage Error", "https://ironlionstelemetry.org/api/v2/Data/BMS/ChargerControlInformation/DischargingCellVoltageError", false, "#<v<#"],
+  ["Charging Cell Voltage Error", "https://ironlionstelemetry.org/api/v2/Data/BMS/ChargerControlInformation/ChargingCellVoltageError", false, "#<v<#"],
+  ["Status Cell Over Temperature", "https://ironlionstelemetry.org/api/v2/Data/BMS/ExtendedPackStatus/StatusCellOverTemp", false, "#<v<#"],
+  ["Status Cell Under Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/ExtendedPackStatus/StatusCellUnderVolt", false, "#<v<#"],
+  ["Status Cell Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/BMS/ExtendedPackStatus/StatusCellOverVolt", false, "#<v<#"],
+  ["CMU Current", "https://ironlionstelemetry.org/api/v2/Data/BMS/FanStatus/CmuCurrent", false, "#<v<#"],
+  ["Fan And Contactors Current", "https://ironlionstelemetry.org/api/v2/Data/BMS/FanStatus/FanAndContactorsCurrent", false, "#<v<#"],
+  ["Fan Speed 1", "https://ironlionstelemetry.org/api/v2/Data/BMS/FanStatus/FanSpeed1", false, "#<v<#"],
+  ["Fan Speed 0", "https://ironlionstelemetry.org/api/v2/Data/BMS/FanStatus/FanSpeed0", false, "#<v<#"],
+  ["Max Cell Temperature CMU", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellTemp/MaxCellTempCMU", false, "#<v<#"],
+  ["Min Cell Temperature CMU", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellTemp/MinCellTempCMU", false, "#<v<#"],
+  ["Min Cell Temperature", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellTemp/MinCellTemp", false, "#<v<#"],
+  ["Max Cell Voltage Cell No", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltageCellNo", false, "#<v<#"],
+  ["Max Cell Voltage CMU", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltageCMU", false, "#<v<#"],
+  ["Min Cell Voltage Cell No", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltageCellNo", false, "#<v<#"],
+  ["Min Cell Voltage CMU", "https://ironlionstelemetry.org/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltageCMU", false, "#<v<#"],
+
+  ["__spacer__|span-4|MPPTS"],
+  ["__spacer__|span-4|Inputs"],
+  ["MPPT1 Input Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/PowerInput/InputVoltage", false, "#<v<#"],
+  ["MPPT2 Input Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/PowerInput/InputVoltage", false, "#<v<#"],
+  ["MPPT3 Input Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/PowerInput/InputVoltage", false, "#<v<#"],
+  ["MPPT4 Input Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/PowerInput/InputVoltage", false, "#<v<#"],
+  ["MPPT1 Input Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/PowerInput/InputCurrent", false, "#<v<#"],
+  ["MPPT2 Input Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/PowerInput/InputCurrent", false, "#<v<#"],
+  ["MPPT3 Input Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/PowerInput/InputCurrent", false, "#<v<#"],
+  ["MPPT4 Input Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/PowerInput/InputCurrent", false, "#<v<#"],
+  
+  ["__spacer__|span-4|Outputs"],
+  ["MPPT1 Output Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/PowerOutput/OutputVoltage", false, "#<v<#"],
+  ["MPPT2 Output Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/PowerOutput/OutputVoltage", false, "#<v<#"],
+  ["MPPT3 Output Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/PowerOutput/OutputVoltage", false, "#<v<#"],
+  ["MPPT4 Output Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/PowerOutput/OutputVoltage", false, "#<v<#"],
+  ["MPPT1 Output Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/PowerOutput/OutputCurrent", false, "#<v<#"],
+  ["MPPT2 Output Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/PowerOutput/OutputCurrent", false, "#<v<#"],
+  ["MPPT3 Output Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/PowerOutput/OutputCurrent", false, "#<v<#"],
+  ["MPPT4 Output Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/PowerOutput/OutputCurrent", false, "#<v<#"],
+  
+  ["__spacer__|span-4|Temperature"],
+  ["MPPT1 Controller Temperature", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/Temperature/ControllerTemperature", false, "#<v<#"],
+  ["MPPT2 Controller Temperature", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/Temperature/ControllerTemperature", false, "#<v<#"],
+  ["MPPT3 Controller Temperature", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/Temperature/ControllerTemperature", false, "#<v<#"],
+  ["MPPT4 Controller Temperature", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/Temperature/ControllerTemperature", false, "#<v<#"],
+  
+  ["__spacer__|span-4|Errors"],
+  ["MPPT1 Error Hw Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/Status/ErrorHwOverVoltage", false, "#<v<#"],
+  ["MPPT2 Error Hw Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/Status/ErrorHwOverVoltage", false, "#<v<#"],
+  ["MPPT3 Error Hw Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/Status/ErrorHwOverVoltage", false, "#<v<#"],
+  ["MPPT4 Error Hw Over Voltage", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/Status/ErrorHwOverVoltage", false, "#<v<#"],
+  ["MPPT1 Error Hw Over Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/Status/ErrorHwOverCurrent", false, "#<v<#"],
+  ["MPPT2 Error Hw Over Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/Status/ErrorHwOverCurrent", false, "#<v<#"],
+  ["MPPT3 Error Hw Over Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/Status/ErrorHwOverCurrent", false, "#<v<#"],
+  ["MPPT4 Error Hw Over Current", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/Status/ErrorHwOverCurrent", false, "#<v<#"],
+  
+  ["__spacer__|span-4|Charging"],
+  ["MPPT1 Error Battery Full", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/Status/ErrorBatteryFull", false, "#<v<#"],
+  ["MPPT2 Error Battery Full", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/Status/ErrorBatteryFull", false, "#<v<#"],
+  ["MPPT3 Error Battery Full", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/Status/ErrorBatteryFull", false, "#<v<#"],
+  ["MPPT4 Error Battery Full", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/Status/ErrorBatteryFull", false, "#<v<#"],
+  ["MPPT1 Mode", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/Status/Mode", false, "#<v<#"],
+  ["MPPT2 Mode", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/Status/Mode", false, "#<v<#"],
+  ["MPPT3 Mode", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/Status/Mode", false, "#<v<#"],
+  ["MPPT4 Mode", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/Status/Mode", false, "#<v<#"],
+  ["MPPT1 Output Voltage Battery Side", "https://ironlionstelemetry.org/api/v2/Data/Elmar1/PowerConnector/OutputVoltageBatterySide", false, "#<v<#"],
+  ["MPPT2 Output Voltage Battery Side", "https://ironlionstelemetry.org/api/v2/Data/Elmar2/PowerConnector/OutputVoltageBatterySide", false, "#<v<#"],
+  ["MPPT3 Output Voltage Battery Side", "https://ironlionstelemetry.org/api/v2/Data/Elmar3/PowerConnector/OutputVoltageBatterySide", false, "#<v<#"],
+  ["MPPT4 Output Voltage Battery Side", "https://ironlionstelemetry.org/api/v2/Data/Elmar4/PowerConnector/OutputVoltageBatterySide", false, "#<v<#"]
+
+];
+
+
+const idMap = {};
+let socAh = NaN;
+let packVoltage = NaN;
+let packCurrent = NaN;
+let mpptCurrents = [];
+let mpptVoltages = [];
+endpoints.forEach(([label, url, driver, range], i) => {
+  if (label.startsWith("__spacer__")) {
+    const spacer = document.createElement("div");
+    spacer.className = "tile spacer";
+
+    const parts = label.split("|");
+    if (parts.length > 1) {
+      spacer.classList.add(parts[1]); // e.g., span-2, span-3
+    }
+    spacer.textContent = parts[2] || ""; // label text
+    container.appendChild(spacer);
+    return;
+  }
+
+  const tile = document.createElement("div");
+  tile.className = "tile";
+  tile.innerHTML = `
+    <h3>${label}</h3>
+    <div class="value" id="val${i}">Loading...</div>
+    <div class="unit" id="unit${i}"></div>
+  `;
+    idMap[i] = i;
+container.appendChild(tile);
+});
+
+
+
+          async function authenticate() {
+            const response = await fetch("https://ironlionstelemetry.org/api/v2/Users/Authenticate", {
+              method: "POST",
+              headers: {
+                "accept": "text/plain",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ username: "Kayleb", password: "solar2012" })
+            });
+
+            if (!response.ok) {
+              console.error("Authentication failed");
+              return;
+            }
+
+            const data = await response.json();
+            return data.token;
+          }
+
+          async function fetchData(url, token) {
+            try {
+              const response = await fetch(url, {
+                headers: {
+                  "accept": "application/json",
+                  "Authorization": "Bearer " + token
+                }
+              });
+              if (!response.ok) throw new Error("HTTP " + response.status);
+              const json = await response.json();
+              return {
+                value: json.signal?.value ?? "NaN",
+                unit: json.signal?.unit ?? ""
+              };
+            } catch (err) {
+              console.error(err);
+              return { value: "Error", unit: "" };
+            }
+          }
+
+          (async () => {
+  const token = await authenticate();
+  if (!token) return;
+
+  async function update() {
+      const valueMap = {};
+
+      // Store and update each value safely
+      await Promise.all(endpoints.map(async ([label, url, driver, range], i) => {
+        if (!url) return;
+
+        try {
+          const response = await fetch(url, {
+            headers: {
+              "accept": "application/json",
+              "Authorization": "Bearer " + token
+            }
+          });
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          const json = await response.json();
+          const value = json.signal?.value ?? "NaN";
+          const unit = json.signal?.unit ?? "";
+
+          valueMap[label] = parseFloat(value);
+
+          const valEl = document.getElementById(`val${i}`);
+          const unitEl = document.getElementById(`unit${i}`);
+          if (valEl && unitEl) {
+            valEl.textContent = value;
+            unitEl.textContent = unit;
+            updateTile(i, value, driver, range);
+          }
+        } catch (err) {
+          console.error(err);
+          valueMap[label] = NaN;
+          const valEl = document.getElementById(`val${i}`);
+          const unitEl = document.getElementById(`unit${i}`);
+          if (valEl && unitEl) {
+            valEl.textContent = "Error";
+            unitEl.textContent = "";
+          }
+        }
+      }));
+
+      // Calculate derived values safely
+      const socAh = valueMap["SOC Ah"];
+      const packVoltage = valueMap["Pack Voltage"];
+      const packCurrent = valueMap["Pack Current"];
+      const mpptCurrents = [1, 2, 3, 4].map(i => valueMap[`MPPT${i} Input Current`]);
+      const mpptVoltages = [1, 2, 3, 4].map(i => valueMap[`MPPT${i} Input Voltage`]);
+
+      function writeDerived(label, value, unit) {
+        const idx = endpoints.findIndex(([name]) => name === label);
+        const valEl = document.getElementById(`val${idx}`);
+        const unitEl = document.getElementById(`unit${idx}`);
+        if (valEl && unitEl) {
+          valEl.textContent = isNaN(value) ? "NaN" : value.toFixed(2);
+          unitEl.textContent = unit;
+        }
+      }
+
+      writeDerived("Watt-hour Battery", socAh * packVoltage, "Wh");
+
+      const panelAmps = mpptCurrents.every(v => !isNaN(v)) ? mpptCurrents.reduce((a, b) => a + b, 0) : NaN;
+      writeDerived("Panel Amps", panelAmps, "A");
+
+      const wattPanels = mpptCurrents.map((a, i) => a * mpptVoltages[i]);
+      const totalWatts = wattPanels.every(v => !isNaN(v)) ? wattPanels.reduce((a, b) => a + b, 0) : NaN;
+      writeDerived("Watt Panels", totalWatts, "W");
+
+      const netAmps = isNaN(panelAmps) || isNaN(packCurrent) ? NaN : panelAmps - packCurrent;
+      writeDerived("Net Amps", netAmps, "A");
+}
+  
+      const logRow = [formatTimestamp()];
+      endpoints.forEach(([label], i) => {
+        const valEl = document.getElementById(`val${i}`);
+        if (valEl && !label.startsWith("__spacer__")) {
+          const value = valEl.textContent.trim();
+          if (!telemetryLog.length) columnLabels.push(label);
+          logRow.push(value);
+        }
+      });
+      telemetryLog.push(logRow);
+
+  setInterval(update, 1000);
+})();
+
+
+          setActive("tabLive");
+        };
+        
+       document.getElementById("tabGhi").onclick = () => {
+  content.innerHTML = `
+    <div class="image-container">
+      <img src="Solcast.png" alt="Solcast">
+    </div>`;
+  setActive("tabGhi");
+};
+
+
+        document.getElementById("tabLogs").onclick = () => {
+          content.innerHTML = "<h2>Logs</h2><p>Past telemetry logs will show up here.</p>";
+          setActive("tabLogs");
+        };
+        
+
+        function setActive(id) {
+          document.querySelectorAll(".navbar button").forEach(btn => btn.classList.remove("active"));
+          document.getElementById(id).classList.add("active");
+        }
+
+        document.getElementById("tabLive").click();
+      });
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const reactScript = document.querySelector('script[src*="/static/js/"]');
+        if (reactScript) reactScript.remove();
+      });
+    }
+  
+let telemetryLog = [];
+let columnLabels = [];
+
+function formatTimestamp() {
+  return new Date().toISOString();
+}
+
+function buildCSVContent() {
+  let csv = "Time," + columnLabels.join(",") + "\n";
+  for (const row of telemetryLog) {
+    csv += row.join(",") + "\n";
+  }
+  return csv;
+}
+
+function showLogPreview() {
+  const content = document.getElementById("tabContent");
+  content.innerHTML = "<h2>Log Preview</h2><pre style='white-space:pre-wrap; background:#222; color:white; padding:10px; border-radius:5px; max-height:70vh; overflow-y:auto;'>" + buildCSVContent() + "</pre>";
+}
+
+window.addEventListener("beforeunload", () => {
+  const blob = new Blob([buildCSVContent()], { type: "text/csv" });
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const fileName = `telemetry-log-${ts}.csv`;
+
+  const url = URL.createObjectURL(blob);
+  localStorage.setItem("latestTelemetryLog", buildCSVContent());
+  localStorage.setItem("latestTelemetryLogTimestamp", ts);
+});
+
+// Override tabLogs behavior
+document.getElementById("tabLogs").onclick = () => {
+  const content = document.getElementById("tabContent");
+  const saved = localStorage.getItem("latestTelemetryLog");
+  const ts = localStorage.getItem("latestTelemetryLogTimestamp");
+  content.innerHTML = "<h2>Log Preview</h2><p><b>Last Saved:</b> " + ts + "</p><pre style='white-space:pre-wrap; background:#222; color:white; padding:10px; border-radius:5px; max-height:70vh; overflow-y:auto;'>" + saved + "</pre>";
+  setActive("tabLogs");
+};
+
+</script>
+
+  <!-- Profinity React App (blocked on /dashboard) -->
+  <script defer src="/static/js/main.ccb9f4b9.js">
+let telemetryLog = [];
+let columnLabels = [];
+
+function formatTimestamp() {
+  return new Date().toISOString();
+}
+
+function buildCSVContent() {
+  let csv = "Time," + columnLabels.join(",") + "\n";
+  for (const row of telemetryLog) {
+    csv += row.join(",") + "\n";
+  }
+  return csv;
+}
+
+function showLogPreview() {
+  const content = document.getElementById("tabContent");
+  content.innerHTML = "<h2>Log Preview</h2><pre style='white-space:pre-wrap; background:#222; color:white; padding:10px; border-radius:5px; max-height:70vh; overflow-y:auto;'>" + buildCSVContent() + "</pre>";
+}
+
+window.addEventListener("beforeunload", () => {
+  const blob = new Blob([buildCSVContent()], { type: "text/csv" });
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const fileName = `telemetry-log-${ts}.csv`;
+
+  const url = URL.createObjectURL(blob);
+  localStorage.setItem("latestTelemetryLog", buildCSVContent());
+  localStorage.setItem("latestTelemetryLogTimestamp", ts);
+});
+
+// Override tabLogs behavior
+document.getElementById("tabLogs").onclick = () => {
+  const content = document.getElementById("tabContent");
+  const saved = localStorage.getItem("latestTelemetryLog");
+  const ts = localStorage.getItem("latestTelemetryLogTimestamp");
+  content.innerHTML = "<h2>Log Preview</h2><p><b>Last Saved:</b> " + ts + "</p><pre style='white-space:pre-wrap; background:#222; color:white; padding:10px; border-radius:5px; max-height:70vh; overflow-y:auto;'>" + saved + "</pre>";
+  setActive("tabLogs");
+};
+
+</script>
+  <link href="/static/css/main.1284d78e.css" rel="stylesheet"/>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+<!-- PDF preview + Robust Logging -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function previewLog(key) {
+  const csv = localStorage.getItem(key);
+  const container = document.getElementById("tabContent");
+
+  const lines = csv.trim().split("\n");
+  const tableHTML = `
+    <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse; font-family:Arial; font-size:12px; width:100%;">
+      ${lines.map((line, i) => {
+        const cells = line.split(",").map(cell => `<td>${cell.trim()}</td>`).join("");
+        return `<tr style="background:${i === 0 ? '#ddd' : i % 2 === 0 ? '#f9f9f9' : '#fff'}">${cells}</tr>`;
+      }).join("")}
+    </table>`;
+
+  container.innerHTML = `
+    <h3>Preview: ${key}</h3>
+    <div id="htmlLogTable" style="overflow-x:auto; margin-bottom:10px;">${tableHTML}</div>
+    <button onclick="renderPdfFromTable()">View PDF Below</button>
+    <div id="pdfPreview" style="margin-top:20px;"></div>
+  `;
+}
+
+function renderPdfFromTable() {
+  const element = document.getElementById("htmlLogTable");
+  html2pdf()
+    .from(element)
+    .set({
+      margin: 0.5,
+      filename: 'log-preview.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    })
+    .outputPdf('blob')
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      document.getElementById("pdfPreview").innerHTML = `<iframe src="${url}" style="width:100%; height:70vh;"></iframe>`;
+    });
+}
+
+document.getElementById("tabLogs").onclick = () => {
+  const content = document.getElementById("tabContent");
+  const index = JSON.parse(localStorage.getItem("telemetry-log-index") || "[]");
+  content.innerHTML = '<h2>Saved Logs</h2><ul id="logList" style="list-style:none; padding:0;"></ul><div id="logPreview" style="margin-top:20px;"></div>';
+  const list = document.getElementById("logList");
+  index.reverse().forEach(({ key, timestamp }) => {
+    const li = document.createElement("li");
+    li.innerHTML = '<button style="margin-bottom:5px;" onclick="previewLog(\'' + key + '\')">' + timestamp + '</button>';
+    list.appendChild(li);
+  });
+  setActive("tabLogs");
+};
+
+window.addEventListener("beforeunload", () => {
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const key = `telemetry-log-${ts}`;
+  const csv = buildCSVContent();
+  localStorage.setItem(key, csv);
+  const index = JSON.parse(localStorage.getItem("telemetry-log-index") || "[]");
+  index.push({ key, timestamp: ts });
+  localStorage.setItem("telemetry-log-index", JSON.stringify(index));
+});
+</script>
+
+
+<script>
+let telemetryLog = [];
+let columnLabels = [];
+
+function formatTimestamp() {
+  return new Date().toISOString();
+}
+
+function buildCSVContent() {
+  let csv = "Time," + columnLabels.join(",") + "\n";
+  for (const row of telemetryLog) {
+    csv += row.join(",") + "\n";
+  }
+  return csv;
+}
+
+async function update() {
+  const logRow = [formatTimestamp()];
+  endpoints.forEach(([label], i) => {
+    if (!label.startsWith("__spacer__")) {
+      const valEl = document.getElementById(`val${i}`);
+      if (valEl) {
+        const value = valEl.textContent.trim();
+        if (!columnLabels.includes(label)) columnLabels.push(label);
+        logRow.push(value);
+      }
+    }
+  });
+  telemetryLog.push(logRow);
+  console.log("Telemetry log row:", logRow);
+  document.getElementById("logStatus").textContent = "Logging: ON | Rows: " + telemetryLog.length;
+}
+
+// Reliable CSV download
+function downloadCSV() {
+  if (!telemetryLog.length) return;
+  const csv = buildCSVContent();
+  const blob = new Blob([csv], { type: "text/csv" });
+  const ts = new Date().toISOString().replace(/[:.]/g, "-");
+  const filename = `telemetry-${ts}.csv`;
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  console.log("Triggered CSV download.");
+}
+
+// Kick off everything on DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Telemetry logging started...");
+
+  // Add logging status indicator
+  const logInfo = document.createElement("div");
+  logInfo.id = "logStatus";
+  logInfo.style = "position:fixed;bottom:10px;left:10px;background:#111;color:#0f0;padding:5px 10px;font-size:14px;z-index:1000;";
+  logInfo.textContent = "Logging: ON | Rows: 0";
+  document.body.appendChild(logInfo);
+
+  // Add manual download button
+  const btn = document.createElement("button");
+  btn.textContent = "Download CSV Now";
+  btn.style = "position:fixed;bottom:10px;right:10px;z-index:1000;padding:10px;";
+  btn.onclick = downloadCSV;
+  document.body.appendChild(btn);
+
+  // Start logging loop
+  setInterval(update, 1000);
+});
+
+// Trigger CSV download slightly delayed when page/tab is hidden
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    setTimeout(downloadCSV, 50);
+  }
+});
+</script>
+
+</body>
+</html>
+

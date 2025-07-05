@@ -1,0 +1,22 @@
+<svg id="DASH_BATTERY100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="27.273" viewBox="0 0 60 27.273">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_330" data-name="Rectangle 330" width="60" height="27.273" fill="#575757"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_329" data-name="Rectangle 329" width="12.508" height="20.818" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2685" data-name="Group 2685">
+    <g id="Group_2667" data-name="Group 2667" transform="translate(0 0)">
+      <g id="Group_2666" data-name="Group 2666" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <path id="Path_17766" data-name="Path 17766" d="M57.273,5.46V5.455H54.545V2.727A2.735,2.735,0,0,0,51.818,0H2.727A2.736,2.736,0,0,0,0,2.727V24.546a2.735,2.735,0,0,0,2.727,2.727h49.09a2.735,2.735,0,0,0,2.727-2.727V21.817h2.727A2.729,2.729,0,0,0,60,19.09V8.187A2.729,2.729,0,0,0,57.273,5.46" transform="translate(0 0)" fill="#575757" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+  <g id="Group_2686" data-name="Group 2686" transform="translate(23.539 3.228)">
+    <g id="Group_2664" data-name="Group 2664" transform="translate(0 0)" clip-path="url(#clip-path-2)">
+      <path id="Path_17763" data-name="Path 17763" d="M5.59,20.818a.469.469,0,0,1-.349-.175.874.874,0,0,1-.18-.695L6.022,12.8H.526a.476.476,0,0,1-.408-.27.958.958,0,0,1-.006-.914L6.506.284A.484.484,0,0,1,6.916,0a.467.467,0,0,1,.348.175.874.874,0,0,1,.18.695L6.483,8.012h5.5a.475.475,0,0,1,.407.27A.965.965,0,0,1,12.4,9.2L6,20.53a.483.483,0,0,1-.408.287Z" transform="translate(0 0)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

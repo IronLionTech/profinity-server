@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Iron Lion Telemetry</title>
+<link href="/favicon.ico" rel="icon"/>
+  <style id="dashboard-style">
+    body {
+      margin: 0;
+      padding: 30px;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background-color: #83888f;
+      color: black;
+    }
+
+    h1 {
+      color: black;
+      text-align: center;
+      font-size: 36px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 240px));
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      padding: 10px;
+    }
+
+    .tile {
+      background-color: #222;
+      border: 1px solid #555;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tile h2 {
+      font-size: 18px;
+      margin: 0 0 12px;
+      color: #aaa;
+    }
+
+    .value {
+      font-size: 24px;
+      font-weight: bold;
+      color: green;
+      text-align: right;
+      margin-bottom: 5px;
+    }
+
+    .blue { color: #00f; }
+    .yellow { color: yellow !important; }
+    .red { color: red !important; }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      text-align: center;
+    }
+
+    #modalContent {
+      background-color: #222;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes flashBackground {
+      0% { background-color: #fff; }
+      100% { background-color: #83888f; }
+    }
+
+    .spacer {
+      background-color: transparent !important;
+      box-shadow: none !important;
+      border: none;
+      pointer-events: none;
+    }
+
+    .tile.spacer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 16px;
+      color: #aaa;
+      background-color: #222;
+      border: 1px solid #555;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+      height: auto;
+    }
+
+    .span-1 { grid-column: span 1; }
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+  </style>
+<script defer="">
+    if (window.location.pathname === "/dashboard") {
+      document.addEventListener("DOMContentLoaded", async () => {
+        document.getElementById("root")?.remove();
+        document.querySelector('script[src*="/static/js/"]')?.remove();
+        document.getElementById("dashboard-style").disabled = false;
+
+        const body = document.body;
+        body.innerHTML = `
+    <h1>Offline Telemetry Dashboard</h1>
+    <div class="dashboard" id="dashboard"></div>
+    <div id="modal">
+      <div id="modalContent">
+        <div style="font-size: 60px; margin-bottom: 10px;">⚠️</div>
+        <div style="font-size: 28px; font-weight: bold;">Warning!</div>
+        <div style="font-size: 22px; margin-top: 5px;">Service Vehicle</div>
+        <div style="margin-top: 15px;">Error codes:</div>
+        <div id="modalErrorUrl" style="margin-top: 5px; color: yellow;"></div>
+      </div>
+    </div>
+  `;
+        const endpoints =[
+        {
+  name: "Driver",
+  elementId: "driver",
+  driverSettings: false,
+  limits: "",
+  isSpacer: true,
+  span: 4
+},
+  {
+    "name": "SOC Percent",
+    "elementId": "SOCPercent",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/PackStateOfCharge/SOCPercent"
+  },
+  {
+    "name": "SOC Ah",
+    "elementId": "SOCAh",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/PackStateOfCharge/SOCAh"
+  },
+  {
+    "name": "Pack Voltage",
+    "elementId": "PackVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/PackVoltageCurrent/Voltage"
+  },
+  {
+    "name": "Watt-hour Battery",
+    "elementId": "WatthourBattery",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "calculation": "SOC Ah \u00d7 Pack Voltage"
+  },
+  {
+    "name": "Max Cell Voltage",
+    "elementId": "MaxCellVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltage"
+  },
+  {
+    "name": "Max Cell Temperature",
+    "elementId": "MaxCellTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellTemp/MaxCellTemp"
+  },
+  {
+    "name": "Cell Temperature Margin",
+    "elementId": "CellTemperatureMargin",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ChargerControlInformation/CellTemperatureMargin"
+  },
+  {
+    "name": "Min Cell Voltage",
+    "elementId": "MinCellVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltage"
+  },
+  {
+    "name": "Pack Current",
+    "elementId": "PackCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/PackVoltageCurrent/Current"
+  },
+  {
+    "name": "Net Amps",
+    "elementId": "NetAmps",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "calculation": "MPPT1 Out + MPPT2 Out + MPPT3 Out + MPPT4 Out \u2212 Pack Current"
+  },
+  {
+    "name": "Watt Panels",
+    "elementId": "WattPanels",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "calculation": "(MPPT1 V\u00d7I + MPPT2 V\u00d7I + MPPT3 V\u00d7I + MPPT4 V\u00d7I)"
+  },
+  {
+    "name": "Panel Amps",
+    "elementId": "PanelAmps",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "calculation": "MPPT1 In + MPPT2 In + MPPT3 In + MPPT4 In"
+  },
+  {
+  name: "Battery",
+  elementId: "battery",
+  driverSettings: false,
+  limits: "",
+  isSpacer: true,
+  span: 4
+},
+  {
+    "name": "Status Cell Over Temperature",
+    "elementId": "StatusCellOverTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/BatteryPackStatus/StatusCellOverTemp"
+  },
+  {
+    "name": "Status Cell Under Voltage",
+    "elementId": "StatusCellUnderVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/BatteryPackStatus/StatusCellUnderVolt"
+  },
+  {
+    "name": "Status Cell Over Voltage",
+    "elementId": "StatusCellOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/BatteryPackStatus/StatusCellOverVolt"
+  },
+  {
+    "name": "Total Pack Capacity",
+    "elementId": "TotalPackCapacity",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ChargerControlInformation/TotalPackCapacity"
+  },
+  {
+    "name": "Discharging Cell Voltage Error",
+    "elementId": "DischargingCellVoltageError",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ChargerControlInformation/DischargingCellVoltageError"
+  },
+  {
+    "name": "Charging Cell Voltage Error",
+    "elementId": "ChargingCellVoltageError",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ChargerControlInformation/ChargingCellVoltageError"
+  },
+  {
+    "name": "Status Cell Over Temperature",
+    "elementId": "StatusCellOverTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ExtendedPackStatus/StatusCellOverTemp"
+  },
+  {
+    "name": "Status Cell Under Voltage",
+    "elementId": "StatusCellUnderVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ExtendedPackStatus/StatusCellUnderVolt"
+  },
+  {
+    "name": "Status Cell Over Voltage",
+    "elementId": "StatusCellOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/ExtendedPackStatus/StatusCellOverVolt"
+  },
+  {
+    "name": "CMU Current",
+    "elementId": "CMUCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/FanStatus/CmuCurrent"
+  },
+  {
+    "name": "Fan And Contactors Current",
+    "elementId": "FanAndContactorsCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/FanStatus/FanAndContactorsCurrent"
+  },
+  {
+    "name": "Fan Speed 1",
+    "elementId": "FanSpeed1",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/FanStatus/FanSpeed1"
+  },
+  {
+    "name": "Fan Speed 0",
+    "elementId": "FanSpeed0",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/FanStatus/FanSpeed0"
+  },
+  {
+    "name": "Max Cell Temperature CMU",
+    "elementId": "MaxCellTemperatureCMU",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellTemp/MaxCellTempCMU"
+  },
+  {
+    "name": "Min Cell Temperature CMU",
+    "elementId": "MinCellTemperatureCMU",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellTemp/MinCellTempCMU"
+  },
+  {
+    "name": "Min Cell Temperature",
+    "elementId": "MinCellTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellTemp/MinCellTemp"
+  },
+  {
+    "name": "Max Cell Voltage Cell No",
+    "elementId": "MaxCellVoltageCellNo",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltageCellNo"
+  },
+  {
+    "name": "Max Cell Voltage CMU",
+    "elementId": "MaxCellVoltageCMU",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MaximumCellVoltageCMU"
+  },
+  {
+    "name": "Min Cell Voltage Cell No",
+    "elementId": "MinCellVoltageCellNo",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltageCellNo"
+  },
+   {
+    "name": "Min Cell Voltage CMU",
+    "elementId": "MinCellVoltageCMU",
+    "driverSettings": false,
+    "limits": "0<x<80",
+    "url": "/api/v2/Data/BMS/MinMaxCellVoltage/MinimumCellVoltageCMU"
+  },
+  {
+  name: "MPPTS - Inputs",
+  elementId: "mppts",
+  driverSettings: false,
+  limits: "",
+  isSpacer: true,
+  span: 4,
+  style: "color: Lightblue; font-size: 40px; font-weight: bold; text-align: center;"
+},
+  {
+    "url": "/api/v2/Data/Elmar1/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT1 Output Voltage Battery Side",
+    "elementId": "MPPT1OutputVoltageBatterySide",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT2 Output Voltage Battery Side",
+    "elementId": "MPPT2OutputVoltageBatterySide",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT3 Output Voltage Battery Side",
+    "elementId": "MPPT3OutputVoltageBatterySide",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT4 Output Voltage Battery Side",
+    "elementId": "MPPT4OutputVoltageBatterySide",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/PowerInput/InputVoltage",
+    "name": "MPPT1 Input Voltage",
+    "elementId": "MPPT1InputVoltage",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerInput/InputVoltage",
+    "name": "MPPT2 Input Voltage",
+    "elementId": "MPPT2InputVoltage",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerInput/InputVoltage",
+    "name": "MPPT3 Input Voltage",
+    "elementId": "MPPT3InputVoltage",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerInput/InputVoltage",
+    "name": "MPPT4 Input Voltage",
+    "elementId": "MPPT4InputVoltage",
+    "driverSettings": true,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/PowerInput/InputCurrent",
+    "name": "MPPT1 Input Current",
+    "elementId": "MPPT1InputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerInput/InputCurrent",
+    "name": "MPPT2 Input Current",
+    "elementId": "MPPT2InputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerInput/InputCurrent",
+    "name": "MPPT3 Input Current",
+    "elementId": "MPPT3InputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerInput/InputCurrent",
+    "name": "MPPT4 Input Current",
+    "elementId": "MPPT4InputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/PowerOutput/OutputVoltage",
+    "name": "MPPT1 Output Voltage",
+    "elementId": "MPPT1OutputVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerOutput/OutputVoltage",
+    "name": "MPPT2 Output Voltage",
+    "elementId": "MPPT2OutputVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerOutput/OutputVoltage",
+    "name": "MPPT3 Output Voltage",
+    "elementId": "MPPT3OutputVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerOutput/OutputVoltage",
+    "name": "MPPT4 Output Voltage",
+    "elementId": "MPPT4OutputVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/PowerOutput/OutputCurrent",
+    "name": "MPPT1 Output Current",
+    "elementId": "MPPT1OutputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerOutput/OutputCurrent",
+    "name": "MPPT2 Output Current",
+    "elementId": "MPPT2OutputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerOutput/OutputCurrent",
+    "name": "MPPT3 Output Current",
+    "elementId": "MPPT3OutputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerOutput/OutputCurrent",
+    "name": "MPPT4 Output Current",
+    "elementId": "MPPT4OutputCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+  name: "Outputs",
+  elementId: "outputs",
+  driverSettings: false,
+  limits: "",
+  isSpacer: true,
+  span: 4
+},
+  {
+    "url": "/api/v2/Data/Elmar1/Temperature/ControllerTemperature",
+    "name": "MPPT1 Controller Temperature",
+    "elementId": "MPPT1ControllerTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/Temperature/ControllerTemperature",
+    "name": "MPPT2 Controller Temperature",
+    "elementId": "MPPT2ControllerTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/Temperature/ControllerTemperature",
+    "name": "MPPT3 Controller Temperature",
+    "elementId": "MPPT3ControllerTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/Temperature/ControllerTemperature",
+    "name": "MPPT4 Controller Temperature",
+    "elementId": "MPPT4ControllerTemperature",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/Status/ErrorHwOverVoltage",
+    "name": "MPPT1 Error Hw Over Voltage",
+    "elementId": "MPPT1ErrorHwOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/Status/ErrorHwOverVoltage",
+    "name": "MPPT2 Error Hw Over Voltage",
+    "elementId": "MPPT2ErrorHwOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/Status/ErrorHwOverVoltage",
+    "name": "MPPT3 Error Hw Over Voltage",
+    "elementId": "MPPT3ErrorHwOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/Status/ErrorHwOverVoltage",
+    "name": "MPPT4 Error Hw Over Voltage",
+    "elementId": "MPPT4ErrorHwOverVoltage",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/Status/ErrorHwOverCurrent",
+    "name": "MPPT1 Error Hw Over Current",
+    "elementId": "MPPT1ErrorHwOverCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/Status/ErrorHwOverCurrent",
+    "name": "MPPT2 Error Hw Over Current",
+    "elementId": "MPPT2ErrorHwOverCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/Status/ErrorHwOverCurrent",
+    "name": "MPPT3 Error Hw Over Current",
+    "elementId": "MPPT3ErrorHwOverCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/Status/ErrorHwOverCurrent",
+    "name": "MPPT4 Error Hw Over Current",
+    "elementId": "MPPT4ErrorHwOverCurrent",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/Status/ErrorBatteryFull",
+    "name": "MPPT1 Error Battery Full",
+    "elementId": "MPPT1ErrorBatteryFull",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/Status/ErrorBatteryFull",
+    "name": "MPPT2 Error Battery Full",
+    "elementId": "MPPT2ErrorBatteryFull",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/Status/ErrorBatteryFull",
+    "name": "MPPT3 Error Battery Full",
+    "elementId": "MPPT3ErrorBatteryFull",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/Status/ErrorBatteryFull",
+    "name": "MPPT4 Error Battery Full",
+    "elementId": "MPPT4ErrorBatteryFull",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/Status/Mode",
+    "name": "MPPT1 Mode",
+    "elementId": "MPPT1Mode",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/Status/Mode",
+    "name": "MPPT2 Mode",
+    "elementId": "MPPT2Mode",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/Status/Mode",
+    "name": "MPPT3 Mode",
+    "elementId": "MPPT3Mode",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/Status/Mode",
+    "name": "MPPT4 Mode",
+    "elementId": "MPPT4Mode",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar1/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT1 Output Voltage Battery Side",
+    "elementId": "MPPT1OutputVoltageBatterySide",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar2/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT2 Output Voltage Battery Side",
+    "elementId": "MPPT2OutputVoltageBatterySide",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar3/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT3 Output Voltage Battery Side",
+    "elementId": "MPPT3OutputVoltageBatterySide",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  },
+  {
+    "url": "/api/v2/Data/Elmar4/PowerConnector/OutputVoltageBatterySide",
+    "name": "MPPT4 Output Voltage Battery Side",
+    "elementId": "MPPT4OutputVoltageBatterySide",
+    "driverSettings": false,
+    "limits": "0<x<80"
+  }
+];
+
+        const dashboard = document.getElementById("dashboard");
+        const state = {};
+        const failingDriverEndpoints = new Set();
+
+        try {
+          const res = await fetch("https://ironlionstelemetry.org/api/v2/Users/Authenticate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", accept: "text/plain" },
+            body: JSON.stringify({ username: "Kayleb", password: "solar2012" })
+          });
+          var token = (await res.json()).token;
+        } catch {
+          alert("Authentication failed");
+          return;
+        }
+
+endpoints.forEach(ep => {
+  const tile = document.createElement("div");
+  tile.className = ep.isSpacer ? `tile spacer span-${ep.span}` : "tile";
+
+ if (ep.isSpacer) {
+  const customStyle = ep.style || "margin:auto; font-size: 20px; text-align: center;";
+  tile.innerHTML = `<h2 style="${customStyle}">${ep.name}</h2>`;
+} else {
+  tile.innerHTML = `<h2>${ep.name}</h2><div id="${ep.elementId}" class="value">--</div>`;
+}
+
+  dashboard.appendChild(tile);
+});
+
+        function isValueInLimit(value, limitStr) {
+          const match = limitStr.match(/([\d.-]+)<x<([\d.-]+)/);
+          if (!match) return true;
+          const min = parseFloat(match[1]);
+          const max = parseFloat(match[2]);
+          return value > min && value < max;
+        }
+
+        function triggerModal() {
+          document.body.style.animation = "flashBackground 0.5s infinite alternate";
+          document.getElementById("modalErrorUrl").innerHTML =
+            [...failingDriverEndpoints].map(url => `<div>${url}</div>`).join("");
+          document.getElementById("modal").style.display = "flex";
+        }
+
+        function clearModal() {
+          document.body.style.animation = "none";
+          document.getElementById("modal").style.display = "none";
+        }
+
+        function handleDriverWarning(endpoint, valueEl) {
+          const id = endpoint.url;
+          if (!state[id]) {
+            failingDriverEndpoints.add(id);
+            state[id] = {
+              stage: "yellow",
+              redTimer: setTimeout(() => {
+                if (state[id]?.stage === "yellow") {
+                  valueEl.classList.replace("yellow", "red");
+                  state[id].stage = "red";
+                }
+              }, 5000),
+              modalTimer: setTimeout(() => {
+                if (state[id]?.stage === "red") {
+                  triggerModal();
+                }
+              }, 8000)
+            };
+          }
+        }
+
+        function clearDriverState(url) {
+          if (state[url]) {
+            clearTimeout(state[url].redTimer);
+            clearTimeout(state[url].modalTimer);
+            delete state[url];
+            failingDriverEndpoints.delete(url);
+
+            const el = document.querySelector(`[id="${endpoints.find(e => e.url === url)?.elementId}"]`);
+            if (el) el.className = "value blue";
+
+            if (failingDriverEndpoints.size === 0) clearModal();
+          }
+        }
+
+        async function fetchTelemetry() {
+  for (const ep of endpoints) {
+  if (ep.isSpacer) continue;
+            const el = document.getElementById(ep.elementId);
+            try {
+              const res = await fetch(`https://ironlionstelemetry.org${ep.url}`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+              const json = await res.json();
+              const valStr = String(json?.signal?.value ?? "--").trim();
+              const val = parseFloat(valStr);
+              const bad = isNaN(val) || (ep.limits && !isNaN(val) && !isValueInLimit(val, ep.limits));
+
+              el.textContent = valStr;
+              if (!state[ep.url]) {
+                el.className = "value " + (bad ? "yellow" : "blue");
+              }
+
+              if (bad && ep.driverSettings) handleDriverWarning(ep, el);
+              if (!bad) clearDriverState(ep.url);
+
+            } catch {
+              el.textContent = "Error";
+              el.className = "value yellow";
+              if (ep.driverSettings) handleDriverWarning(ep, el);
+            }
+          }
+        }
+
+        setInterval(fetchTelemetry, 1000);
+        fetchTelemetry();
+      });
+    }
+  </script>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

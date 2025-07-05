@@ -1,0 +1,23 @@
+<svg id="Component_85_2" data-name="Component 85 – 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <filter id="Rectangle_366">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-opacity="0.161" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g data-type="innerShadowGroup">
+    <rect id="Rectangle_366-2" data-name="Rectangle 366" width="25" height="25" rx="2" fill="#575757"/>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_366)">
+      <rect id="Rectangle_366-3" data-name="Rectangle 366" width="25" height="25" rx="2" fill="#fff"/>
+    </g>
+    <g id="Rectangle_366-4" data-name="Rectangle 366" fill="none" stroke="#707070" stroke-width="1">
+      <rect width="25" height="25" rx="2" stroke="none"/>
+      <rect x="0.5" y="0.5" width="24" height="24" rx="1.5" fill="none"/>
+    </g>
+  </g>
+  <path id="send_button_down" d="M21.785,4.217A.75.75,0,0,0,21,4.045l-16.5,6a.75.75,0,0,0,0,1.4l7.2,2.88,2.88,7.2a.723.723,0,0,0,1.365-.022l6-16.5a.75.75,0,0,0-.157-.787M15.253,19.149,13.161,13.9l3.592-3.592L15.7,9.249l-3.622,3.622-5.22-2.122L20,6Z" transform="translate(-0.518 0.001)" fill="#f1f0f0"/>
+</svg>

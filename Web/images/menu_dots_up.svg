@@ -1,0 +1,29 @@
+<svg id="Component_84_8" data-name="Component 84 – 8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <filter id="Rectangle_366">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-opacity="0.161" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_2853" data-name="Group 2853" transform="translate(-1073 -730)">
+    <g data-type="innerShadowGroup">
+      <rect id="Rectangle_366-2" data-name="Rectangle 366" width="25" height="25" rx="2" transform="translate(1073 730)" fill="#fff"/>
+      <g transform="matrix(1, 0, 0, 1, 1073, 730)" filter="url(#Rectangle_366)">
+        <rect id="Rectangle_366-3" data-name="Rectangle 366" width="25" height="25" rx="2" fill="#fff"/>
+      </g>
+      <g id="Rectangle_366-4" data-name="Rectangle 366" transform="translate(1073 730)" fill="none" stroke="#707070" stroke-width="1">
+        <rect width="25" height="25" rx="2" stroke="none"/>
+        <rect x="0.5" y="0.5" width="24" height="24" rx="1.5" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_2851" data-name="Group 2851" transform="translate(-254 1)">
+      <circle id="Ellipse_146" data-name="Ellipse 146" cx="2" cy="2" r="2" transform="translate(1338 740)" fill="#575757"/>
+      <circle id="Ellipse_147" data-name="Ellipse 147" cx="2" cy="2" r="2" transform="translate(1344 740)" fill="#575757"/>
+      <circle id="Ellipse_148" data-name="Ellipse 148" cx="2" cy="2" r="2" transform="translate(1332 740)" fill="#575757"/>
+    </g>
+  </g>
+</svg>

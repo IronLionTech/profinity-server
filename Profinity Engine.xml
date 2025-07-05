@@ -1,0 +1,3302 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Profinity Engine</name>
+    </assembly>
+    <members>
+        <member name="T:Profinity.CANBus.CANClient">
+            <summary>
+            CANClient class that handles CAN bus communication, providing functionality to send and receive CAN packets
+            with support for buffering and packet management.
+            </summary>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.#ctor">
+            <summary>
+            Initializes a new instance of the CANClient class with default settings.
+            </summary>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.UpdatePacketRange(System.UInt32,System.UInt32)">
+            <summary>
+            Updates the range of CAN IDs to monitor and applies the new settings.
+            </summary>
+            <param name="minPacketToMonitor">Minimum CAN ID to monitor</param>
+            <param name="maxPacketToMonitor">Maximum CAN ID to monitor</param>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.UpdatePacketRange(System.UInt32)">
+            <summary>
+            Updates the monitoring range based on a single CAN ID.
+            </summary>
+            <param name="cancanId">CAN ID to consider in the monitoring range</param>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.SetMilliSecondsValid(System.UInt32)">
+            <summary>
+            Sets the validity period for received packets.
+            </summary>
+            <param name="milliSecondValid">Number of milliseconds a packet remains valid</param>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.LatestValidPacketReceivedByID(System.UInt32,System.Boolean)">
+            <summary>
+            Retrieves the latest valid CAN packet for a specific ID.
+            </summary>
+            <param name="canId">CAN ID of the packet to retrieve</param>
+            <param name="returnExpiredPackets">Whether to return expired packets</param>
+            <returns>The latest valid CAN packet or null if none exists or is expired</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.BufferCANPackets(System.UInt32)">
+            <summary>
+            Starts buffering CAN packets for a specific ID to handle fast device responses, removes any existing entries
+            </summary>
+            <param name="canId">CAN ID to buffer packets for</param>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.StopBufferingCANPackets(System.UInt32)">
+            <summary>
+            Stops buffering CAN packets for a specific ID.
+            </summary>
+            <param name="canId">CAN ID to stop buffering for</param>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.AddLockIfNeeded(System.UInt32)">
+            <summary>
+            Adds a packet manager for a specific CAN ID if it doesn't exist.
+            </summary>
+            <param name="canId">CAN ID to add manager for</param>
+            <returns>The packet manager for the specified CAN ID</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.Bus(System.Int32)">
+            <summary>
+            Returns an enumerable of all received CAN packets.
+            </summary>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>Enumerable of CAN packets</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.Bus(System.UInt32,System.Int32)">
+            <summary>
+            Returns an enumerable of CAN packets for a specific ID.
+            </summary>
+            <param name="canId">CAN ID to receive packets for</param>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>Enumerable of CAN packets for the specified ID</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.Receive(System.Int32)">
+            <summary>
+            Receives a single CAN packet with optional timeout.
+            </summary>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>The received CAN packet or null if timeout occurs</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.ReceiveAsync(System.Int32)">
+            <summary>
+            Asynchronously receives a single CAN packet with optional timeout.
+            </summary>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>Task containing the received CAN packet or null if timeout occurs</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.Receive(System.UInt32,System.Int32)">
+            <summary>
+            Receives a single CAN packet for a specific ID with optional timeout.
+            </summary>
+            <param name="canId">CAN ID to receive packet for</param>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>The received CAN packet or null if timeout occurs</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.ReceiveAsync(System.UInt32,System.Int32)">
+            <summary>
+            Asynchronously receives a single CAN packet for a specific ID with optional timeout.
+            </summary>
+            <param name="canId">CAN ID to receive packet for</param>
+            <param name="timeout">Timeout in milliseconds (-1 for infinite)</param>
+            <returns>Task containing the received CAN packet or null if timeout occurs</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.Send(Profinity.Comms.CANBus.CanPacket)">
+            <summary>
+            Sends a CAN packet over the bus.
+            </summary>
+            <param name="message">The CAN packet to send</param>
+            <returns>True if the packet was sent successfully</returns>
+        </member>
+        <member name="M:Profinity.CANBus.CANClient.CanPacketReceived(Profinity.Comms.CANBus.CanPacket)">
+            <summary>
+            Handles received CAN packets by distributing them to appropriate buffers and managers.
+            </summary>
+            <param name="canPacket">The received CAN packet</param>
+        </member>
+        <member name="P:Profinity.Components.Actions.ProfinityAction.RequiresProhelionTcp">
+            <summary>
+            This action requires a configured and active Tritium or Prohelion adapter running in TCP mode
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.ProfinityAction.RequiresProhelionTcpDisabled">
+            <summary>
+            This action needs Tcp to not be running currently on a Tritium or Prohelion adapater as the adapter can only support
+            one TCP connection at a time
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.ProfinityAction.PercentageComplete">
+            <summary>
+            Percentage of this action complete, for long running actions this is used to report on the progress.  1 (100%) indicates at the process is complete.
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.ProfinityAction.Value">
+            <summary>
+            The value can be passed in when the action is executed by the client, it can contain anything but will be used by the action for more context
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.RunMethodAction.PercentageComplete">
+            <summary>
+            Percentage of this action that is complete
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.UpdateFirmwareAction.PercentageComplete">
+            <summary>
+            Percentage of this action that is complete
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.UpdateFirmwareSettingsAction.PercentageComplete">
+            <summary>
+            Percentage of this action that is complete
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Actions.UpdateProfinityAction.PercentageComplete">
+            <summary>
+            Percentage of this action that is complete
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.BaseCanDeviceWithFileMonitoring`1.StopFileUpdateWatcher">
+            <summary>
+            Stops the background profile watcher used for auto updating the profile when it is saved to disk
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.BaseAddress">
+            <summary>
+            Base address of this CAN Receiving node, the lowest address that we should be looking at, for example 0x600
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.BaseAddressAsHex">
+            <summary>
+            Helper Property to provide the Base Address in Text
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.HighAddress">
+            <summary>
+            The Highest CAN address that we should be looking at for example 0x6FF
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.HighAddressAsHex">
+            <summary>
+            Helper function to provide the High Address in Text
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.AddressRange">
+            <summary>
+            The scale of the rage between the BaseAddress and the HighAddress
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.MilliValid">
+            <summary>
+            How many milliseconds we consider a packet from this device type valid
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.PacketsReceived">
+            <summary>
+            How many valid packets has this device received for processing
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.PacketsSent">
+            <summary>
+            How many valid packets has this device received for processing
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.CANBus.CanReceivingNode.Endian">
+            <summary>
+            The CAN encoding of this device type, Big or Little Endian
+            </summary>
+        </member>
+        <member name="F:Profinity.Components.CANBus.CanReceivingNode.safetyEngaged">
+            <summary>
+            Does this device have a safey function that we want to engage to do safety checks
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Boolean,Profinity.Comms.CANBus.CanPacket.Encoding,System.Boolean)">
+            <summary>
+            Constructor for Can Receiving Node
+            </summary>
+            <param name="baseAddress">Base address of this receiver</param>
+            <param name="highAddress">High address of this receiver</param>
+            <param name="milliValid">How many seconds is a CAN packet from this device considered valid</param>
+            <param name="startReceiver">Do we wish to start this receiver, receiving packets</param>
+            <param name="endian">What endian does this device use? Big Endian or Little Endian</param>
+            <param name="safetyEngaged">Does this device implement a safety function</param>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.SafeState">
+            <summary>
+            Is the device operating in a SafeState, this method is overwritten when safety checking is required.
+            It is called 10 times a second during operation.
+            </summary>
+            <returns>Is the device safe or not</returns>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.EmergencyStop">
+            <summary>
+            Triggers a hard emergency stop of the device, similar to what would occur if you pushed the EStop button on a piece of hardware.
+            This method should be overridden if required with the functionality required to do the stop.  It is called if the SafeState method 
+            returns false and should result in a shutdown occurring within 1/10th of a second if an unsafe scenario emerges.
+            </summary>
+            <returns>Was the emergency stop successful</returns>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.LatestValidPacketReceivedByID(System.UInt32,System.Boolean)">
+            <summary>
+            Return the latest CAN Packet at the absolute address defined by the canID
+            </summary>
+            <param name="canId">CAN Bus id that you want to return</param>
+            <param name="returnExpiredPackets">Return the packet, even if the packet is no longer valid because it is too old</param>
+            <returns>Latest CAN Packet received at this address or null if no packet has been received or the packet has timed out</returns>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.LatestValidPacketReceivedByOffset(System.UInt32,System.Boolean)">
+            <summary>
+            Returns the latest packet using an offset of the base ID of the device, so for example if your device had a base id of 0x600
+            and you wanted the third packet (0x603) then the canIdOffset parameter should be set to 3
+            </summary>
+            <param name="canIdOffset">Most recent packet found at the offset of the base ID</param>
+            <param name="returnExpiredPackets">Return the packet, even if the packet is no longer valid because it is too old</param>
+            <returns>CAN Packet or null if there is no packet or the packet is not valid (millisecond timeout)</returns>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.LatestPacketSentByID(System.UInt32)">
+            <summary>
+            Return the latest CAN Packet sent by this device at the absolute address defined by the canID
+            </summary>
+            <param name="canId">CAN Bus id that you want to return</param>
+            <returns>Latest CAN Packet sent by this device at this address or null if no packet has been sent or the packet has timed out</returns>
+        </member>
+        <member name="M:Profinity.Components.CANBus.CanReceivingNode.LatestPacketSentByOffset(System.UInt32)">
+            <summary>
+            Returns the latest packet sent by this device using an offset of the base ID of the device, so for example if your device had a base id of 0x600
+            and you wanted the third packet (0x603) then the canIdOffset parameter should be set to 3
+            </summary>
+            <param name="canIdOffset">Most recent packet sent by this device at the offset of the base ID</param>
+            <returns>CAN Packet or null if there is no packet or the packet is not valid (millisecond timeout)</returns>
+        </member>
+        <member name="P:Profinity.Components.CanBUS.ICanReceivingNodeSettings.CanRangeExclusive">
+            <summary>
+            Is the CAN Address range for this device exclusive
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Chargers.BaseChargeController.PrechargeReady">
+            <summary>
+            Moves the pack in to a state where it can handle the precharge transition state on the BMS, for most power supplies this is simply a matter of providing a voltage in the range and a small amount of current.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseChargerSettings`1.ChargerVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseChargerSettings`1.ChargerCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseChargerSettings`1.ChargerPowerLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseChargerSettings`1.SupplyVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseChargerSettings`1.SupplyCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseSCPIChargerSettings`1.ChargerPort">
+            <summary>
+            Connection port on the remote host
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseSCPIChargerSettings`1.Timeout">
+            <summary>
+            Charger Timeout
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.BaseSCPIChargerSettings`1.AutoConnect">
+            <summary>
+            Should the logger Automatically start when the profile is loaded
+            </summary>
+        </member>
+        <member name="T:Profinity.Components.Chargers.Elcon.ElconCanReceiver">
+            <summary>
+            This class is used simply to relay relevant CAN bus traffic back to the elcon controller
+            To get around c#'s multiple interitance limitations
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Chargers.Elcon.ElconCanReceiver.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Boolean,Profinity.Comms.CANBus.CanPacket.Encoding)">
+            <summary>
+            This class is used simply to relay relevant CAN bus traffic back to the elcon controller
+            To get around c#'s multiple interitance limitations
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Elcon.ElconChargeController.PacketsReceived">
+            <summary>
+            Number of packets received by the underlying CAN Receiving componets of the controller
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Chargers.Elcon.ElconChargeController.PrechargeReady">
+            <summary>
+            Not required for Elcon, it can just handle the precharge
+            </summary>
+            <returns>True always</returns>
+        </member>
+        <member name="M:Profinity.Components.Chargers.Elcon.ElconChargeController.Connect">
+            <summary>
+            Not relevant to Elcons which use CAN and hence connect via the CAN Adapters
+            </summary>
+            <returns>true</returns>
+        </member>
+        <member name="M:Profinity.Components.Chargers.Elcon.ElconChargeController.Disconnect">
+            <summary>
+            Not relevant to Elcons which use CAN and hence connect via the CAN Adapters
+            </summary>
+            <returns>true</returns>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Elcon.ElconChargerSettings.ChargerVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Elcon.ElconChargerSettings.ChargerCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Elcon.ElconChargerSettings.ChargerPowerLimit">
+            <summary>
+            Charger power limit
+            </summary>
+        </member>
+        <member name="T:Profinity.Components.Chargers.IProfinityCharger">
+            <summary>
+            This exists mainly to help work around C#'s inability to inherit from multiple classes
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.ITech.ITechBiDirectionalPowerSupplySettings.ChargerPort">
+            <summary>
+            Connection port on the remote host
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.ITech.ITechBiDirectionalPowerSupplySettings.ChargerVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.ITech.ITechBiDirectionalPowerSupplySettings.ChargerCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.ITech.ITechBiDirectionalPowerSupplySettings.ChargerPowerLimit">
+            <summary>
+            Charger power limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Siglent.SiglentPowerSupplySettings.ChargerChannel">
+            <summary>
+            Siglent has the concept of a charger channel
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Siglent.SiglentPowerSupplySettings.ChargerVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Siglent.SiglentPowerSupplySettings.ChargerCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.Siglent.SiglentPowerSupplySettings.ChargerPowerLimit">
+            <summary>
+            Charger power limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.TDK.TDKPowerSupplySettings.ChargerId">
+            <summary>
+            TDK has the concept of a charger ID
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.TDK.TDKPowerSupplySettings.ChargerVoltageLimit">
+            <summary>
+            Charger voltage limits
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.TDK.TDKPowerSupplySettings.ChargerCurrentLimit">
+            <summary>
+            Charger current limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Chargers.TDK.TDKPowerSupplySettings.ChargerPowerLimit">
+            <summary>
+            Charger power limit
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.ElmarSolar.ElmarMPPT.OutputPower">
+            <summary>
+            Caculates the bus power from the voltage and current
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.AnalysisEngine.#ctor(Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.DataEngine,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Establishes the Analysis engine for the battery analysis
+            </summary>
+            <param name="dataEngine">A data engine, including the SOC file and Data File for this battery</param>
+            <param name="dataCacheSize">The size of usage data that should be held by the analysis engine</param>
+            <param name="collectionIntervalSeconds">How often should a data collection occur</param>
+            <param name="analysisIntervalSeconds">How often (in seconds) should analysis be performed.  Set to 0 by default, which means never do this automatically,
+            rather the caller should call the DoAnalysis() operation to cause the analysis to happen automatically</param>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.RuntimeEngine.SOCError">
+            <summary>
+            The recorded error between the BMU reported SOC and the Kalman filters SOC
+            
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.RuntimeEngine.SOHPredictedCapacityNowAh">
+            <summary>
+            The battery capacity right now as predicted if the battery had 100% SOH
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.RuntimeEngine.SOHActualCapacityNowAh">
+            <summary>
+            The actual (estimated) capacity right now based on coulomb counting
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.RuntimeEngine.GetCellData(System.UInt32,System.UInt32)">
+            <summary>
+            This is a safe function designed to GetCellData or if the structure has not yet been initialised 
+            then do so for this node and cell
+            </summary>
+            <param name="node">The node index we are interested in</param>
+            <param name="cell">The cell index we are interested in</param>
+            <returns>The correct runtime dataset for this cell</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.RuntimeEngine.UpdateRuntimeDataFromAnalysisData(Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Model.UsageData)">
+            <summary>
+             This method just updates a couple of parameters in the runtime data set so that in one model we have a complete view of the
+             cell that we can use at runtime
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Utilities.BatteryUtilities.TrueSOC(Profinity.Components.Devices.Prohelion.BatteryManagementSystems.AdvancedStateOfCharge.Engine.DataEngine,System.Double)">
+            <summary>
+            When the BMU reports SOC it is not reporting the true state of charge, for example if the 
+            pack is setup to balance at 80% of the OCV, the SOC will report 100% when it is infact at 80%.
+            
+            This function uses the battery model and some maths to figure out what the actual true SOC is on 
+            this battery based on what the BMU is reporting the SOC to be
+            </summary>
+            <param name="dataEngine">A data engine instance</param>
+            <param name="reportedSOC">The SOC as being reported by the BMU in the range of 0 to 1 for percentage</param>
+            <returns>The actual true SOC of the pack</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.C20Gen1.C20Gen1Bms.EngagePack">
+            <summary>
+            It is not possible to engage or disengage this pack.  Pack is always engaged.
+            </summary>
+            <returns>true always</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.C20Gen1.C20Gen1Bms.DisengagePack">
+            <summary>
+            It is not possible to engage or disengage this pack.  Pack is always engaged.
+            </summary>
+            <returns>false always</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.CancelHeartbeats">
+            <summary>
+            Cancels the sending of heartbeats to the D1000 Bms
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.SendHeartbeats">
+            <summary>
+            Sends the base level battery heartbeats of _driverControlHeartbeat and _driverControlAddress.
+            Generally only used when Profinity is simulating the driver control
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToCorrectOffState">
+            <summary>
+            Moves the battery service to the correct off state, correct is determined on if 
+            are going to the Idle state or the Safe (Error) start
+            If the battery is running in ForceSafeOverIdle then safe mode is forced
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToCorrectOffStateAsync">
+            <summary>
+            Moves the battery service to the correct off state, correct is determined on if 
+            are going to the Idle state or the Safe (Error) start
+            If the battery is running in ForceSafeOverIdle then safe mode is forced
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToSafeState">
+            <summary>
+            Safe state for the Prohelion BMU is defined as the lowest order state
+            this is actually an error state, which seems a little counter intutive but
+            as it is the lowest level state this is where we go to.
+            We will generally only go here in an emergency
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToSafeStateAsync">
+            <summary>
+            Safe state for the Prohelion BMU is defined as the lowest order state
+            this is actually an error state, which seems a little counter intutive but
+            as it is the lowest level state this is where we go to.
+            We will generally only go here in an emergency
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToIdleState">
+            <summary>
+            Move the battery to the Idle state
+            In the idle state we continue to sent the 505 messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToIdleStateAsync">
+            <summary>
+            Move the battery to the Idle state
+            In the idle state we continue to sent the 505 messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToEnableState">
+            <summary>
+            Moves the battery in to a full run state, engaging the contactors
+            </summary>
+            <returns>True if sucessful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.MoveToEnableStateAsync">
+            <summary>
+            Moves the battery in to a full run state, engaging the contactors
+            </summary>
+            <returns>True if sucessful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.WaitUntilContactorsEngageAsync(System.Int32)">
+            <summary>
+            Wait for the battery contactors to engage
+            </summary>
+            <param name="timeoutMilli">Milliseconds to wait</param>
+            <returns>True if successful, False if timedout</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.WaitUntilContactorsDisengageAsync(System.Int32)">
+            <summary>
+            Wait for the contactors to disengage
+            </summary>
+            <param name="timeoutMilli">Milliseconds to wait</param>
+            <returns>True if successful, False if it fails to disengage</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.Common.BaseBmsEngagementUtilities`1.WaitUntilBMSStateEqualsAsync(Profinity.Utilities.StateMachine.BaseState,System.Int32)">
+            <summary>
+            Wait for the BMU to reach a certain state
+            </summary>
+            <param name="bmuState">State we are trying to achieve</param>
+            <param name="timeoutMilli">Milliseconds to wait for that state to be reached</param>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.D1000Gen1Bms.GetNumberActiveCMUs">
+            <summary>
+            Returns the number of active CMUs wea re actually seeing data from
+            </summary>
+            <returns>Number of currently active CMUs</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.StateMachine.D1000Gen1BmsEngagementUtilities.CancelHeartbeats">
+            <summary>
+            Cancels the sending of heartbeats to the D1000 Bms
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.StateMachine.D1000Gen1BmsEngagementUtilities.SendHeartbeats">
+            <summary>
+            Sends the base level battery heartbeats of _driverControlHeartbeat and _driverControlAddress.
+            Generally only used when Profinity is simulating the driver control
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.StateMachine.D1000Gen1BmsEngagementUtilities.MoveToSafeStateAsync">
+            <summary>
+            Safe state for the Prohelion BMU is defined as the lowest order state
+            this is actually an error state, which seems a little counter intutive but
+            as it is the lowest level state this is where we go to.
+            We will generally only go here in an emergency
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.StateMachine.D1000Gen1BmsEngagementUtilities.MoveToIdleStateAsync">
+            <summary>
+            Move the battery to the Idle state
+            In the idle state we continue to sent the 505 messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen1.StateMachine.D1000Gen1BmsEngagementUtilities.MoveToEnableStateAsync">
+            <summary>
+            Moves the battery in to a full run state, engaging the contactors
+            </summary>
+            <returns>True if sucessful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.CancelHeartbeats">
+            <summary>
+            Cancels the sending of heartbeats to the D1000 Bms
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.SendHeartbeats">
+            <summary>
+            Sends the base level battery heartbeats of _driverControlHeartbeat and _driverControlAddress.
+            Generally only used when Profinity is simulating the driver control
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.MoveToSafeStateAsync">
+            <summary>
+            Safe state for the Prohelion BMU is defined as the lowest order state
+            this is actually an error state, which seems a little counter intutive but
+            as it is the lowest level state this is where we go to.
+            We will generally only go here in an emergency
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.MoveToIdleStateAsync">
+            <summary>
+            Move the battery to the Idle state
+            In the idle state we continue to sent the 505 messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.MoveToConnectState">
+            <summary>
+            Move the battery to the Connect state
+            In the idle state we continue to sent the BNS messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.MoveToConnectStateAsync">
+            <summary>
+            Move the battery to the Connect state
+            In the idle state we continue to sent the BMS messages that keep the battery out of error state
+            </summary>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.BatteryManagementSystems.D1000Gen2.StateMachine.D1000Gen2BmsEngagementUtilities.MoveToEnableStateAsync">
+            <summary>
+            Moves the battery in to a full enable state, engaging the contactors
+            </summary>
+            <returns>True if sucessful, False if not</returns>
+        </member>
+        <member name="T:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator">
+            <summary>
+            The BaseCanDeviceValidator is used to provide the core actions of a class that validates if the CAN traffic that it is seeing is valid or not.
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator.#ctor(System.UInt32,System.Collections.ObjectModel.Collection{System.UInt32},System.String,System.UInt32,System.Int32)">
+            <summary>
+            The BaseCanDeviceValidator is used to provide the core actions of a class that validates if the CAN traffic that it is seeing is valid or not.
+            </summary>
+        </member>
+        <member name="F:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator._lastCanValidationPacket">
+            <summary>
+            The most recent packet
+            </summary>
+        </member>
+        <member name="F:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator._lastValidationPackets">
+            <summary>
+            List of the last X packets in a Queue
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator.UpdateValidation(System.UInt32,System.String)">
+            <summary>
+            If the Validation Packet CanID needs to change then call this method, note that it resets everything so a new packet is required before the component will be valid again
+            </summary>
+            <param name="validationPacketCanId">CanId of the packet that we use for validation</param>
+            <param name="componentIdentifier">An identifier for the component that we can use when logging errors as  descriptor</param>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator.DeviceIDFromPacket(Profinity.Comms.CANBus.CanPacket)">
+            <summary>
+            Currently all devices report their ID in the same way, if you have a new device that reports in a different way you can override this method
+            </summary>
+            <param name="canPacket">Packet containing the device ID</param>
+            <returns>The Device ID</returns>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.SettingStates">
+            <summary>
+            Information about the current state of this particular setting
+            </summary>        
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.ErrorReason">
+            <summary>
+            If an error has been detected during load or save, what is the reason for that error
+            Note this is only used on the V2 firmware, V1 just accepts the values and continues
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.OrigionalValue">
+            <summary>
+            What was the origional value of this attribute when first loaded
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.FirmwareSettingsAttribute">
+            <summary>
+            What are the Firmware Attributes assocated with this Firmware Setting
+            </summary>		
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.DisplayName">
+            <summary>
+            What is the display name of this Firmware Setting if it has been set
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.UnderlyingProperty">
+            <summary>
+            Information on the underlying Property that backs this setting
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo.LoadedPropertyType">
+            <summary>
+            Property type when loaded from Yaml
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareState">
+            <summary>
+            Current state of the Firmware
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.LatestCommand">
+            <summary>
+            What is the latest command sent by the firmware config system
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.SettingsAddress">
+            <summary>
+            CAN Bus address used for sending and receiving settings
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareSettings">
+            <summary>
+            The underlying Firmware settings that we are working with
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareSettingsMeta">
+            <summary>
+            Metadata of the Firmware Settings
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.Validator">
+            <summary>
+            Validator to ensure that the traffic is valid before we try to load the firmware
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.Autoload">
+            <summary>
+            Should the firmware system autoload when a packet is first detected on the active address
+            </summary>
+        </member>
+        <member name="E:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareDataLoadedEvent">
+            <summary>
+            Event fired when Firmware data is loaded
+            </summary>
+        </member>
+        <member name="E:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareDataSavedEvent">
+            <summary>
+            Event fired when Firmware data is saved
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.#ctor(Profinity.Components.Devices.Prohelion.Firmware.Common.Settings.ProhelionFirmwareSettings,System.UInt32,System.UInt32,Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator,System.Boolean)">
+            <summary>
+            Constructor for the Prohelion Firmware Settings
+            </summary>
+            <param name="firmwareSettings">The firmware object that you want to manage</param>
+            <param name="baseAddress">The base address of the device</param>
+            <param name="settingsAddress">The absolute settings address used by this device, not the offset</param>
+            <param name="validator">Validator to try validate that the CAN data is for the right device before we load or save the firmware</param>
+            <param name="autoload">If autoload is true then when the first CAN packet is received on the active address the class will attempt the load the firmware parameters</param>
+            <exception cref="T:System.ArgumentException">Active address must be below the settings address</exception>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.SetupFirmwareSettings">
+            <summary>
+            Sets up all of the metadata for Firmware Settings
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.ReloadFirmwareSettings(System.Boolean,System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Trigger a reload of the firmware settings
+            </summary>
+            <param name="immediateLoad">Load immediately if false we will use whatever trigger loads the firmware in teh background</param>
+            <param name="safeLoad">In safeload mode the call will not return until it has all the parameters back from the firmware</param>
+            <param name="retries">If all the parameters are not returned within the timeout period we will retry, this many times before failing</param>
+            <param name="timeout">How long should we wiat for the parameters to be returned</param>        
+            <returns>If load request has been successfully sent or not</returns>				
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.ReloadFirmwareSettingsASync(System.Boolean,System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Trigger a reload of the firmware settings (Async)
+            </summary>
+            <param name="immediateLoad">Load immediately if false we will use whatever trigger loads the firmware in teh background</param>
+            <param name="safeLoad">In safeload mode the call will not return until it has all the parameters back from the firmware</param>
+            <param name="retries">If all the parameters are not returned within the timeout period we will retry, this many times before failing</param>
+            <param name="timeout">How long should we wiat for the parameters to be returned</param>        
+            <returns>If load request has been successfully sent or not</returns>				
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.SetFirmwareSettingsState(System.Reflection.PropertyInfo,Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareState,System.UInt32)">
+            <summary>
+            Updates a firmware settings state
+            </summary>
+            <param name="propertyInfo">The property you want to update</param>
+            <param name="state">State you want to set it to</param>
+            <param name="index">Index if you are dealing with an array</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.FirmwareProperties(System.Object)">
+            <summary>
+            Returns the properties of each valid Prohelion Firmware Attribute in the class
+            </summary>
+            <returns>Collection of PropertyInfo with the valid properties</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.SettingsInState(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareState)">
+            <summary>
+            Returns the number of settings in the provided state
+            </summary>
+            <param name="state">The state you want to check</param>
+            <returns>The number of settings in that state</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.HasChanged(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo,System.UInt32)">
+            <summary>
+            Returns if a property has changed since it was first loaded
+            </summary>
+            <param name="firmwareInfo">Valid ProhelionFirmwareInfo</param>
+            <param name="index">Index in to the array</param>
+            <returns>True if anything has changed, False if not</returns>
+            <exception cref="T:System.ArgumentNullException">A valid property name must be passed, not a null</exception>
+            <exception cref="T:System.ArgumentException">Thrown if a property is requested that is not in the metadata repository</exception>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.HasChanged">
+            <summary>
+            Returns true if any of the properties have changed, since first loaded
+            </summary>
+            <returns>True if anything has changed, False if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.PreLoad">
+            <summary>
+            Run at the start of an load operation, allowing for version specific setup
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.PostLoad">
+            <summary>
+            Run at the end of an load operation, allowing for version specific cleanup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.TriggerFirmwareDataSavedEvent">
+            <summary>
+            Triggers the saved event, this needs to be called this way as you can't call events from parent classes
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.TriggerFirmwareDataLoadedEvent">
+            <summary>
+            Triggers the loaded event, this needs to be called this way as you can't call events from parent classes
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.Load(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Loads the settings from the firmware in to the local variables
+            </summary>
+            <param name="safeLoad">In safeload mode the call will not return until it has all the parameters back from the firmware</param>
+            <param name="retries">If all the parameters are not returned within the timeout period we will retry, this many times before failing</param>
+            <param name="timeout">How long should we wiat for the parameters to be returned</param>        
+            <returns>If load request has been successfully sent or not</returns>				
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.LoadASync(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Loads the settings from the firmware in to the local variables as an async operation
+            </summary>
+            <param name="safeLoad">In safeload mode the call will not return until it has all the parameters back from the firmware</param>
+            <param name="retries">If all the parameters are not returned within the timeout period we will retry, this many times before failing</param>
+            <param name="timeout">How long should we wiat for the parameters to be returned</param>        
+            <returns>If load request has been successfully sent or not, the actual load is async</returns>	
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.PreUpdate">
+            <summary>
+            Run at the start of an update operation, allowing for version specific setup
+            </summary>        
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.PostUpdate">
+            <summary>
+            Run at the end of an update operation, allowing for version specific cleanup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.UpdateSettings(System.Boolean,System.Boolean,System.IProgress{System.Single})">
+            <summary>
+            Updates the settings in the firmware, does not save unless you instruct it to
+            </summary>
+            <param name="sendChangesOnly">Only sends the parameters that have been changed since loading</param>
+            <param name="save">As well as updated, should the settings also be saved</param>
+            <param name="progress">Sets a progress callback</param>
+            <returns>True if successful, false if the update fails</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager.Save">
+            <summary>
+            Save the current settings in firmware to the flash
+            </summary>
+            <returns>Was the save successful or not</returns>
+        </member>
+        <member name="T:Profinity.Components.Devices.Prohelion.Firmware.Common.Settings.OutputProhelionFirmwareSettingsFile">
+            <summary>
+            This file exists simply because if I add a config alias to BaseProhelionFirmwareSettingsFile it creates deserialisation problems
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.#ctor(Profinity.Components.Devices.Prohelion.Firmware.Common.Settings.ProhelionFirmwareSettings,System.UInt32,System.UInt32,Profinity.Components.Devices.Prohelion.Common.ProhelionCanDeviceValidator,System.Boolean)">
+            <summary>
+            Constructor for the Prohelion Firmware Settings
+            </summary>
+            <param name="firmwareSettings">The firmware object that you want to manage</param>
+            <param name="baseAddress">The base address of the device</param>
+            <param name="settingsAddress">The absolute settings address used by this device, not the offset</param>
+            <param name="validator">Validator to try validate that the CAN data is for the right device before we load or save the firmware</param>
+            <param name="autoload">If autoload is true then when the first CAN packet is received on the active address the class will attempt the load the firmware parameters</param>
+            <exception cref="T:System.ArgumentException">Active address must be below the settings address</exception>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.SetupMode(System.Boolean)">
+            <summary>
+            "Helper function" which sends commands to BMU to put it in to setup mode
+            </summary>
+            <param name="cancel">Cancels the setup mode</param>
+            <returns>True packet has been sent successfully</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.Load(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Loads the settings from the firmware in to the local variables
+            </summary>
+            <param name="safeLoad">In safeload mode the call will not return until it has all the parameters back from the firmware</param>
+            <param name="retries">If all the parameters are not returned within the timeout period we will retry, this many times before failing</param>
+            <param name="timeout">How long should we wiat for the parameters to be returned</param>        
+            <returns>If load request has been successfully sent or not, the actual load is async</returns>		
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.UpdateSettingPacket(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo,System.Nullable{System.UInt32})">
+            <summary>
+            Create an update settings packet, note that address is ignored in V1, it is a V2 only feature
+            </summary>
+            <param name="firmwareInfo">Parameter you want to update</param>
+            <param name="address">Index of that parameter if it is an indexed parameter</param>
+            <returns>A CanPacket to send</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.UpdateSettings(System.Boolean,System.Boolean,System.IProgress{System.Single})">
+            <summary>
+            Updates the settings in the firmware
+            </summary>
+            <param name="sendChangesOnly">Only sends the parameters that have been changed since loading</param>
+            <param name="save">As well as updated, should the settings also be saved</param>
+            <param name="progress">Sets a progress callback</param>        
+            <returns>True if successful, false if the update fails</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V1.Settings.ProhelionFirmwareSettingsManagerGen1.Save">
+            <summary>
+            Save the current settings in firmware to the flash
+            </summary>
+            <returns>Was the save successful or not</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V2.Settings.ProhelionFirmwareSettingsManagerGen2.PreLoad">
+            <summary>
+            Run at the start of an load operation, allowing for version specific setup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V2.Settings.ProhelionFirmwareSettingsManagerGen2.PostLoad">
+            <summary>
+            Run at the end of an load operation, allowing for version specific cleanup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V2.Settings.ProhelionFirmwareSettingsManagerGen2.PreUpdate">
+            <summary>
+            Run at the start of an update operation, allowing for version specific setup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V2.Settings.ProhelionFirmwareSettingsManagerGen2.PostUpdate">
+            <summary>
+            Run at the end of an update operation, allowing for version specific cleanup
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Components.Devices.Prohelion.Firmware.V2.Settings.ProhelionFirmwareSettingsManagerGen2.UpdateSettingPacket(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareInfo,System.Nullable{System.UInt32})">
+            <summary>
+            Create an update settings packet, note that address is ignored in V1, it is a V2 only feature
+            </summary>
+            <param name="firmwareInfo">Parameter you want to update</param>
+            <param name="address">Index of that parameter if it is an indexed parameter</param>
+            <returns>A CanPacket to send</returns>
+        </member>
+        <member name="P:Profinity.Components.Devices.Prohelion.WaveSculptor22.ProhelionWaveSculptor22.BusPower">
+            <summary>
+            Caculates the bus power from the voltage and current
+            </summary>
+        </member>
+        <member name="T:Profinity.Components.Loggers.BaseFileLoggerDevice`1">
+            <summary>
+            Provides the base set of functionality used by all of the File based loggers such as the File Logger, FTP Logger and SFTP logger.
+            Manages the process of receiving the can and writing it to the file system
+            </summary>
+            <typeparam name="TDevice">Higher order Logger Device</typeparam>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.#ctor(Profinity.Components.Loggers.BaseFileLoggerSettings{`0},Profinity.Components.BaseComponentMetadata)">
+            <summary>
+            Provides the base set of functionality used by all of the File based loggers such as the File Logger, FTP Logger and SFTP logger.
+            Manages the process of receiving the can and writing it to the file system
+            </summary>
+            <typeparam name="TDevice">Higher order Logger Device</typeparam>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerDevice`1.CurrentLogFile">
+            <summary>
+            File name of the current log file that we are writing to
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.StartLogger">
+            <summary>
+            Starts the logging process
+            </summary>
+            <returns>True of False based on if the logger starts successfully</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.StopLogger">
+            <summary>
+            Stop the logging process
+            </summary>
+            <returns>True if the logger stops as expected, false if it does not</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.StartNewLog">
+            <summary>
+            Creates a new log file including the headers
+            </summary>
+            <returns>True if this process completes as expected, false if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.CloseLog">
+            <summary>
+            Closes the log file ready for archiving or deletion
+            </summary>
+            <returns>True if successful, false if not</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.ProcessIntervalLog">
+            <summary>
+            Called if the Process (rolling / archving) interval has passed
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.ArchiveManager(System.String)">
+            <summary>
+            Manages the process of moving a log file in to archive
+            </summary>
+            <param name="logFile">Log file name, no path should be provided, just the filename</param>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.LogFileName">
+            <summary>
+            Generates a unique log file name, by checking for the existance of log files already
+            </summary>
+            <returns>Unique log file name</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.CompressionManager(System.String)">
+            <summary>
+            Manages the process of compressing a log file in to the zip format
+            </summary>
+            <param name="logFile">Log file name (no path)</param>
+            <returns>File name of the .zip file</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.TransferManager(System.String)">
+            <summary>
+            Virtual service here but if your class provides a transfer capability it should overwrite this method
+            </summary>
+            <param name="logFile">Filename to transfer</param>
+            <returns>True if transfer was successful</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.RollLogAndManage">
+            <summary>
+            Manages the full process of rolling over a log, compression and transfer
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.RotateBytes">
+            <summary>
+            How big should a file be before it gets rolled over
+            </summary>
+            <returns>The maximum file size in bytes</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseFileLoggerDevice`1.WriteCanPacket(Profinity.Comms.CANBus.CanPacket,System.Boolean)">
+            <summary>
+            Handles the receipt of a CAN Packet to be logged
+            </summary>
+            <param name="canPacket">CanPacket to log</param>
+            <param name="sent">Was the CanPacket sent, if not, it must have been received</param>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.RotateBy">
+            <summary>
+            Should the log be rotated and if so what do we rotate by
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.IntervalSec">
+            <summary>
+            How often do we rotate logs in seconds
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.RotateMB">
+            <summary>
+            If we are rotating by MB, how many MB before we rotate
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.ArchiveLogs">
+            <summary>
+            Do we archive the logs once rotated
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.CompressLogs">
+            <summary>
+            Do we compress rotated logs
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.LimitArchive">
+            <summary>
+            Do we limit the number of files in the archive
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseFileLoggerSettings`1.LimitArchiveFileNum">
+            <summary>
+            If we are limiting the number of files, what number are they limited to
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseLoggerDevice`1.Status">
+            <summary>
+            Current state of the logger
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseLoggerSettings`1.AutoStart">
+            <summary>
+            Should the logger Automatically start when the profile is loaded
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseRemoteFileLoggerSettings`1.RemoteHost">
+            <summary>
+            Name of the remote host we are transfering our files to
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseRemoteFileLoggerSettings`1.RemotePort">
+            <summary>
+            Connection port on the remote host
+            </summary>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseRemoteFileLoggerSettings`1.Username">
+            <summary>
+            Remote server username
+            </summary>        
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseRemoteFileLoggerSettings`1.Password">
+            <summary>
+            Remote server password
+            </summary>        
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseRemoteFileLoggerSettings`1.RemoteDirectory">
+            <summary>
+            Destination directory on the remote server
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseTimedLoggerDevice`1.ProcessIntervalLog">
+            <summary>
+            This method is called each time an interval is triggered by the timer.
+            Override this method if you want to processes your messages in a batch
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseTimedLoggerDevice`1.StartLogger">
+            <summary>
+            Start the logging process
+            </summary>
+            <returns>Did the logger start as expected</returns>
+        </member>
+        <member name="M:Profinity.Components.Loggers.BaseTimedLoggerDevice`1.StopLogger">
+            <summary>
+            Start the logging process
+            </summary>
+            <returns>Did the logger start as expected</returns>
+        </member>
+        <member name="P:Profinity.Components.Loggers.BaseTimedLoggerSettings`1.IntervalSec">
+            <summary>
+            If this is a batch or current state logger, what Interval does it run on, if it logs EveryMessage, this will be 0
+            </summary>
+        </member>
+        <member name="T:Profinity.Components.Loggers.Prometheus.LoggerSingleton">
+            <summary>
+            I had a lot of trouble getting this to work in a stable way.
+            In the end I broke the code up in to two sections, a singleton for talking to the Prometheus operations
+            and a single thread manager that call these operations, this seems to have removed the issues
+            </summary>
+        </member>
+        <member name="T:Profinity.Components.Loggers.Prometheus.PrometheusLogger">
+            <summary>
+            The primary function of this class is to ensure that things  get called in a single threaded manner
+            The logic is mainly in the singleton
+            </summary>
+        </member>
+        <member name="M:Profinity.Components.Loggers.Prometheus.PrometheusLogger.#ctor(Profinity.Components.Loggers.Prometheus.PrometheusLoggerSettings)">
+            <summary>
+            The primary function of this class is to ensure that things  get called in a single threaded manner
+            The logic is mainly in the singleton
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActionsController.AvailableComponentActions(System.String)">
+            <summary>
+            Returns all of the available capabilities for this component, these can be called as actions
+            </summary>
+            <returns>An array of available actions by name</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActionsController.ExecuteAction(Profinity.UserInterface.Models.ActionRequest)">
+            <summary>
+            Executes an action on a component, returning an Action ID that can be used to track completion for long running actions.
+            </summary>
+            <returns>Result of the action execution</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActionsController.ActionProgress(System.Int32)">
+            <summary>
+            Returns the progress of an action.  If the ActionId is not longer being tracked then it is assumed to be complete, value of -1 indicates that a failure has occured
+            </summary>
+            <returns>Percentage progress of the action, a value of -1 indicates a failure</returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.ActiveProfileController">
+            <summary>
+            Provides information on the active Profile
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.ActiveProfileName">
+            <summary>
+            Get the name of the active profile
+            </summary>
+            <returns>The name of the active Profile</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.ChangeActiveProfile(System.String)">
+            <summary>
+            Sets the active Profile in Profinity by name
+            </summary>
+            <returns>True if the profile was loaded successfully, false if not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.GetProfile">
+            <summary>
+            Gets the full profile configuration corresponding to the active profile
+            </summary>
+            <returns>The current profile, as a JSON string</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.AutoDiscoveredComponents">
+            <summary>
+            All of the automatically discovered components in this solution
+            </summary>
+            <returns>A list of all the discovered components in the system at this time</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.DiscoveredComponentSettings(System.String)">
+            <summary>
+            Returns a default set of settings for this component type, used during establishment of a new component
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.CreateDiscoveredComponent(System.String,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Creates a new component of the type provided in the active profile with the settings as provided
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.Components">
+            <summary>
+            All the available components that can be provided by Profinity for this active profile
+            </summary>
+            <returns>A list of all the available components in the system at this time</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.GetComponentSettings(System.String)">
+            <summary>
+            Returns a default set of settings for this component type, used during establishment of a new component
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.CreateComponent(System.String,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Creates a new component of the type provided in the active profile with the settings as provided
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.GetProfileSettings(System.String)">
+            <summary>
+            Get the components settings
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.SetProfileSettings(System.String,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Set the component settings
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.GetComponentFirmwareSettings(System.String)">
+            <summary>
+            Downloads the firmware settings of this component as a yaml file (if it has firmware settings)
+            </summary>
+            <returns>A yaml file of the firmware settings</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.DeleteProfile(System.String)">
+            <summary>
+            Remove the component from the active profile
+            </summary>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.DownloadFileType(System.String,System.String)">
+            <summary>
+            Downloads a file from the Profinity Profile, you must provide both the file type and file name in order for this to return you a file from the Profile
+            </summary>
+            <param name="filetype">The filetype to return, valid file types are  DBC, Script, Cell, Firmware, FirmwareSettings</param>
+            <param name="filename">The filename that you wish to download</param>
+            <returns>A file stream if a valid file is found that meets these criteria</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ActiveProfileController.UploadFileType(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Uploads a file to Profinity
+            </summary>
+            <param name="uploadFile">The file to upload, provided as a HTML form file</param>
+            <param name="filetype">The filetype to return, valid file types are  DBC, Script, Cell, Firmware, FirmwareSettings</param>
+            <returns>A response message indicating success or failure</returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.CANController">
+            <summary>
+            CAN bus services that can be used to directly interface with the underling CAN bus networks being controlled by Profinity
+            Send and receive CAN messages using raw CAN bus or DBC
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.GetLatestPacket(System.String)">
+            <summary>
+            Get the latest copy of this CAN bus packet that has been received by Profinity
+            </summary>
+            <param name="canId">CAN id of the packet you want, the value can be passed as a hex value or an integer.
+            Hex values can be passed by prefexing them with 0x so for example you can call this API with 0x600 or 1536.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.GetAllLatestPackets">
+            <summary>
+            Get the latest copy of all CAN bus packets that has been received by Profinity
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.SendCAN(System.String,System.String)">
+            <summary>
+            Post a message to all active adapters on the CAN bus using a raw hex data value
+            </summary>
+            <param name="canId">The CAN bus id of this packet.  Note that this is a Hex value so valid valutes can be provided in hex format such a 0x100 or as decimals convert from hex</param>
+            <param name="hexData">A string of hex data that you wish to send on to the bus</param>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.SendCAN(Profinity.Comms.CANBus.CanPacket)">
+            <summary>
+            Post a message to all active adapters on the CAN bus using a structured CAN Packet JSON message
+            </summary>
+            <param name="canPacket">A JSON CAN Packet Message</param>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.AddScheduledPacket(Profinity.Comms.CANBus.CanPacket,System.Nullable{System.UInt32},System.Nullable{System.Boolean})">
+            <summary>
+            Add a CAN Packet to the scheduler to be run on a schedule
+            </summary>
+            <param name="canPacket">Packet that you want to schedule</param>
+            <param name="intervalMs">Optional: Schedule that you want it to be run on in milliseconds, for example 100 will cause the packet to be sent ever 100ms.  If you set this value to 0 then the packet will be stored in the scheduler but not run and can be manually run using the start API, if no parameter is passed it is set to 0</param>
+            <param name="exclusive">Optional: If a CAN Packet with this CAN Id already is stored, overwrite it with this packet.  If nothing is passed this is set to false by default and will all a new scheduled packet.</param>
+            <returns>Scheduled Packet ID if successful, BadRequest if not.  Log file will contain more debug details on a failure.</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.ScheduledPackets">
+            <summary>
+            Returns all the currently scheduled packets with their keys
+            </summary>
+            <returns>A dictionary, where the Key is the key to be used for the other APIs in this group and the details of the scheduled CAN Packet</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.RemoveScheduledPacket(System.Int64)">
+            <summary>
+            Removes a CAN Packet from the scheduler, using the key as the index
+            </summary>
+            <param name="key">The key (not the CAN Id) that you want remove</param>
+            <returns>True if successful, False if not.  Log file will contain more debug details on a failure.</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.StartScheduledPacket(System.Int64)">
+            <summary>
+            Starts a scheduled Packet, if the packet is already running this API will just return true.  If the packet is scheduled it will start the packet on the schedule, if the packet is not scheduled it will run the packet once.
+            </summary>
+            <param name="key">The key to identify the correct packet</param>
+            <returns>True if successful, False if not.  Log file will contain more debug details on a failure.</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.StopScheduledPacket(System.Int64)">
+            <summary>
+            Stop the scheduled packet, if the packet is not already running this will just return true, this will not remove the packet from the scheduler.
+            </summary>
+            <param name="key">The key to identify the correct packet</param>
+            <returns>True if successful, False if not.  Log file will contain more debug details on a failure.</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.SendScheduledPacket(System.Int64)">
+            <summary>
+            Sends a scheduled packet once without changing the state of the scheduled packet, so if the packet is paused and this command is called, the packet will remain in that state in the scheduler and be sent once.
+            </summary>
+            <param name="key">The key to identify the correct packet</param>
+            <returns>True if successful, False if not.  Log file will contain more debug details on a failure.</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.AvailableLogs">
+            <summary>
+            Returns a list of all the available log files for Replay
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.ReplayCANLog(System.String,System.String,System.String,System.Double,System.Boolean)">
+            <summary>
+            Starts the replay of the supplied log file that should be located in the CAN Bus Logs directory of Profinity
+            </summary>
+            <param name="logName">Log name, including extension</param>
+            <param name="filterFrom">CanID to filter from as a hex value, if not provided all values up to filterTo are included</param>
+            <param name="filterTo">CANID to filter to as a hex value, if not provided all values down to filterFrom are included</param>
+            <param name="percentageStart">What percentage of the log should we start from, for example 0 (start), 0.5 (middle) to 1 (end)</param>        
+            <param name="loopReplay">If true the loop will replay at the end</param>
+            <returns>True if replay starts successfully false if not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.StopReplayCANLog">
+            <summary>
+            Stop a CAN Bus Log Replay that is currently playing
+            </summary>
+            <returns>True if stopped, false if not stopped</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.ReplayCANStatus">
+            <summary>
+            Returns a status message of the current replay
+            </summary>
+            <returns>Status message</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.CANController.RemoveLog(System.String)">
+            <summary>
+            Removes a log file
+            </summary>
+            <param name="logName">Name of the log file you want to remove, must be in the replay logs directory</param>
+            <returns></returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.ChargeController">
+            <summary>
+            Supports the control of chargers defined in Profinity
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.ChargerSetup(System.String,System.String)">
+            <summary>
+            Sets up the charging process. This allows for reporting etc to start before the charge commences, to get the charge status this API should be called first.  You can call /Start without calling this API first as the Charger and Battery are provided.
+            </summary>
+            <param name="chargerId">The component name of the charger</param>
+            <param name="batteryId">The component name of the battery</param>
+            <returns>True if the charge process was setup successfully, False there was an issue in the setup</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.GetChargeStatus">
+            <summary>
+            Get charging details
+            </summary>
+            <returns>Information on the current charge state</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.ChargeStart(System.String,System.String,System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            Starts the charging process.  WARNING: This call will engage the contactors on the pack so make sure your battery is in a safe state before running this API
+            </summary>
+            <param name="chargerId">The component name of the charger</param>
+            <param name="batteryId">The component name of the battery</param>
+            <param name="requestedCurrent">The maximum current that we want to request from the charger</param>
+            <param name="chargeToPercentage">Value of 0 to 100 to charge to for a percentage</param>
+            <returns>True if the charge process started successfully, False if either the battery failed to engage or the charger failed to start</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.ChargerSetCurrent(System.Double)">
+            <summary>
+            Sets the maximum requested current from the charger, the charge will scale up to this level over time so you will not immediately see this current draw.
+            If the charger or wall socket is unable to deliver the requested level of current then the maximum available current will be delivered instead.
+            This call will only work if we are already charging.
+            </summary>
+            <param name="requestedCurrent">The maximum current that we want to request from the charger</param>
+            <returns>True if the charge process started successfully, False if either the battery failed to engage or the charger failed to start</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.ChargeToPercentage(System.Double)">
+            <summary>
+            Sets the percentage that the battery should be charged to before stopping, 0 for 0% percent, 100 for 100%
+            </summary>
+            <param name="requestedPercentage"></param>
+            <returns>True if successful, False if not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ChargeController.ChargeStop">
+            <summary>
+            Stops the charging process.  This both stops the charger but also moves the battery to a safe state, disengaging the contactors in the process.
+            </summary>
+            <returns>True if the charging process stopped as expected, False if not</returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.ConfigController">
+            <summary>
+            Access and set the main Profinity Configuration
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ConfigController.ConfigSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Sets the settings for the system configuration.
+            </summary>        
+            <param name="configSettings">Settings you are trying to set to the config</param>
+            <returns>Results of if the update was successful or not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ConfigController.ConfigSettings">
+            <summary>
+            Provides a settings object for the system configuration.
+            </summary>
+            <returns>Settings object for that user or if the user cannot be found then a settings object for a new user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.GetAllDBCMessagesSignals">
+            <summary>
+            Returns a structured JSON object containing all of the information available for the entire system.
+            </summary>
+            <returns>JSON dataset of the data help by the entire solution</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.GetAllDBCMessagesSignalsAllInfo">
+            <summary>
+            Returns a structured JSON object containing all of the information available for the entire system.  Using all info
+            also results in all the metadata for the entire system being returned as well.
+            </summary>
+            <returns>JSON dataset of the data held by the selected component, including metadata</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.GetDBCMessagesSignals(System.String)">
+            <summary>
+            As per the default data view this returns a structured JSON object containing all the information available for just a single component
+            </summary>
+            <param name="component">Component name that you wish to get the data for (as per the profile)</param>
+            <returns>JSON dataset of the data held by the selected component</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.GetDBCMessagesSignalsAllInfo(System.String)">
+            <summary>
+            As per the default data view this returns a structured JSON object containing all the information available for just a single component, using all 
+            info also results in all the metadata for the component being returned as well.
+            </summary>
+            <param name="component">Component name that you wish to get the data for (as per the profile)</param>
+            <returns>JSON dataset of the data held by the selected component, including metadata</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.GetDBCMessage(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Retrieves a the latest value from the CAN bus networking using DBC messages and Signals.  This service also supports the retieval of historical sets of data
+            </summary>
+            <param name="component">The component as defined in the Profile</param>
+            <param name="message">The DBC message name</param>
+            <param name="signal">The DBC signale name</param>
+            <param name="start">A start time, provided in the InfluxDB format (for example -10m or an absolute time).  See the InfluxDB documentation for more info</param>
+            <param name="stop">A stop time, provided in the InfluxDB format (for example 0m or an absolute time).  See the InfluxDB documentation for more info, if let blank now is used</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.DataQuery(Profinity.UserInterface.Models.DataSourceSetQuery)">
+            <summary>
+            Get data for a specific device for a specific set of sources.      
+            </summary>
+            <returns>Data and a source set</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.DataController.DataQueryDelta(System.String)">
+            <summary>
+            Get changed data since last poll for last set of data values requested with dataquery or dataquery_delta
+            </summary>
+            <returns>Data and a source set</returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.FeedbackController">
+            <summary>
+            Send information to Prohelion in the form of feedback or error logs
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.FeedbackController.FeedbackSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Send a feedback form
+            </summary>        
+            <param name="feedbackSettings">Settings you are trying to set to the config</param>
+            <returns>Results of if the update was successful or not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.FeedbackController.FeedbackSettings">
+            <summary>
+            Provides a settings object for the system configuration.
+            </summary>
+            <returns>Settings object for that user or if the user cannot be found then a settings object for a new user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.LogController.GetLog(System.String,System.Nullable{System.DateTime},System.String,System.Int32,System.String)">
+            <summary>
+            Returns the Profinity log messages
+            </summary>
+            <returns>System status information</returns>
+        </member>
+        <member name="T:Profinity.Controllers.v2.ProfilesController">
+            <summary>
+            Provides information on the active Profile
+            </summary>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.AvailableProfiles">
+            <summary>
+            Returns all of the available profiles in the Profinity instance
+            </summary>
+            <returns>An array of available profiles by name</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.ProfileSettings">
+            <summary>
+            Settings for a default new profile are provided.
+            </summary>
+            <returns>Settings object for a new profile</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.CreateAndActivateProfile(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Creates a new profile from the provided information and activate it
+            </summary>
+            <returns>Success / Failure and a message</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.ProfileSettings(System.String,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Sets the settings for a profile
+            </summary>        
+            <param name="profile">The name of the profile you wish to apply your settings to</param>
+            <param name="profileSettings">Settings you are trying to set to the profile</param>
+            <returns>Results of if the update was successful or not</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.ProfileSettings(System.String)">
+            <summary>
+            Provides the profile settings, if no profile is passed in then a set of default profile settings are provided
+            </summary>
+            <returns>Settings object for that user or if the user cannot be found then a settings object for a new profile</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.ProfilesController.DeleteProfile(System.String)">
+            <summary>
+            Deletes a profile
+            </summary>
+            <returns>Success or failure</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UIController.DefaultComponentUI(System.String,System.String)">
+            <summary>
+            Get the default UI layout for a specific component if one exists.
+            </summary>
+            <returns>Default view for this component</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UIController.ComponentUI(System.String,System.String,System.String)">
+            <summary>
+            Get UI layout for a specific component and view.
+            </summary>
+            <returns>A view if one has been defined with this name or the default view if no view is specified</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UIController.DefaultSystemUI(System.String)">
+            <summary>
+            Returns the default User Interface definition at the system level.
+            </summary>
+            <returns>The default system UI</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UIController.SystemUI(System.String,System.String)">
+            <summary>
+            Provides the supplied view definition at the system level.
+            </summary>
+            <returns>UI</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.Users">
+            <summary>
+            Information on all users defined in the system
+            </summary>
+            <returns>A list of defined users</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.DeleteUser(System.String)">
+            <summary>
+            Delete a user in the system
+            </summary>
+            <param name="username">Username of the user you are trying to delete</param>
+            <returns>A defined user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.UserInfo(System.String)">
+            <summary>
+            Information on a user defined in the system
+            </summary>
+            <param name="username">Username of the user you are trying to lookup</param>
+            <returns>A defined user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.UserSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Creates a new user in the system
+            </summary>        
+            <param name="userSettings">Settings for the user you are trying to create</param>
+            <returns>Settings object for that user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.UserSettings(System.String,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair})">
+            <summary>
+            Updates the settings for a user in the system.
+            </summary>        
+            <param name="username">Username of the user you are trying to update, not required on a create</param>
+            <param name="userSettings">Username of the user you are trying to get the settings for</param>
+            <returns>Settings object for that user or if the user cannot be found then a settings object for a new user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.UserSettings(System.String)">
+            <summary>
+            Provides a settings object for a user defined in the system.  If the username provided cannot be found then the settings for a default user are provided.
+            </summary>
+            <param name="username">Username of the user you are trying to get the settings for</param>
+            <returns>Settings object for that user or if the user cannot be found then a settings object for a new user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.UserSettings">
+            <summary>
+            Settings for a default new user are provided.
+            </summary>
+            <returns>Settings object for a new user</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.Authenticate(Profinity.Model.Security.AuthenticateRequest)">
+            <summary>
+            Authenticates the user, providing a JWT security token if a correct username and password is provided.      
+            </summary>
+            <returns>JWT security token</returns>
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.Refresh">
+            <summary>
+            Refreshes the user token, a user must provide a valid existing token to call this service.  If a valid token is provided then a new token is issued.
+            </summary>
+            <returns>JWT security token</returns>        
+        </member>
+        <member name="M:Profinity.Controllers.v2.UsersController.CurrentUser">
+            <summary>
+            Provides information on the currently connected user        
+            </summary>
+            <returns>User information</returns>
+        </member>
+        <member name="T:Profinity.Engine.ProfinityWorker">
+            <summary>
+            The Profinity Worker class doesn't do anything other than keep the application alive until it is shutdown
+            </summary>
+        </member>
+        <member name="T:Profinity.Engine.WebEngineCommon">
+            <summary>
+            Common components of the web engine
+            </summary>
+        </member>
+        <member name="M:Profinity.Engine.WebEngineCommon.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Common Configure Services capabilities
+            </summary>
+            <param name="services">service to be configured</param>
+        </member>
+        <member name="M:Profinity.Engine.WebEngineCommon.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Boolean,System.Boolean)">
+            <summary>
+            Common app functionality
+            </summary>
+            <param name="app">WebApp to be configured</param>
+            <param name="includeSwagger">Should this instance use swagger</param>
+            <param name="httpsRedirect">Should this instance encforce https</param>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.RequestedVoltage">
+            <summary>
+            Maximum Voltage as requested by the user
+            </summary>
+            
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.RequestedCurrent">
+            <summary>
+            Maximum Current as requested by the user
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerActualVoltage">
+            <summary>
+            The Voltage the charger is actually operating at
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerActualCurrent">
+            <summary>
+            The Current the charger is currently delivering
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.IsCharging">
+            <summary>
+            Is the charging currently charging
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerHardwareStatus">
+            <summary>
+            What is the overall status of the charger hardware
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerTempStatus">
+            <summary>
+            What is the current status of the chargers temperature
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerCommsStatus">
+            <summary>
+            Can we currently communitate with the charger
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerACStatus">
+            <summary>
+            What is the status of the chargers AC power supply (grid side)
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerDCStatus">
+            <summary>
+            What is the status of the chargers DC connection (battery side)
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerState">
+            <summary>
+            What is the current state of the charger
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.ChargerStateMessage">
+            <summary>
+            Message describing the current state of the charger
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.BatteryState">
+            <summary>
+            What is the current state of the battery
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Charging.ChargeState.BatteryStateMessage">
+            <summary>
+            Message describing the current state of the battery
+            </summary>
+        </member>
+        <member name="T:Profinity.Model.Config.ProfinityAppConfig">
+            <summary>
+            Configuration model used to configure Profinity, this is normally stored in the Config.yaml file.
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityAppConfig.UpdateServer">
+            <summary>
+            Update server, if empty uses the default GitHub Update server
+            </summary>        
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityAppConfig.MaxRetainedCanPackets">
+            <summary>
+            Maximum number of CAN packets that Profinity will retain in memory
+            </summary>        
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityAppConfig.EnableScripting">
+            <summary>
+            Should scripting be enabled on this configuration
+            </summary>        
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityAppConfig.ProfinityServer">
+            <summary>
+            Settings for the built in Profinity Server to server API and HTML content
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityAppConfig.Logs">
+            <summary>
+            Options for Profinity Logging
+            </summary>
+        </member>
+        <member name="T:Profinity.Model.Config.ProfinityOptionsConfig">
+            <summary>
+            General options for configuring Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityOptionsConfig.BMSCalibration">
+            <summary>
+            Enable the BMS Calibration options in the Profinity GUI
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityOptionsConfig.CMUCalibration">
+            <summary>
+            Enable the CMU Calibration options in the Profinity GUI
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityOptionsConfig.WebServer">
+            <summary>
+            Options for configurating the Profinity built in Web Server
+            </summary>
+        </member>
+        <member name="T:Profinity.Model.Config.ProfinityLogConfig">
+            <summary>
+            Configuration options for the Log capabilities of Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityLogConfig.LogLevel">
+            <summary>
+            Default Log Level
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityLogConfig.RollsizeMB">
+            <summary>
+            Size of the log file before it will roll
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityLogConfig.RetainedLogs">
+            <summary>
+            Maximum number of log files that are retained when the log rolls.
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.HttpAddress">
+            <summary>
+            Http port that Profinity will listen on for http usually localhost 0.0.0.0
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.HttpPort">
+            <summary>
+            Port that Profinity listens on, by default 18080
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.HttpsAddress">
+            <summary>
+            Https port that Profinity will listen on for https usually localhost 0.0.0.0
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.HttpsPort">
+            <summary>
+            Port that Profinity listens on for https, by default 18443
+            </summary>        
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.HttpsRedirect">
+            <summary>
+            If set to true Profinity will automatically redirect all http traffic to https
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.CertStoreName">
+            <summary>
+            Certificate store when storing the password in Windows
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.CertStoreLocation">
+            <summary>
+            Certificate store location when storing the password in Windows
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.CertStoreSubject">
+            <summary>
+            Certificate store subject when storing the password in Windows
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.CertFile">
+            <summary>
+            Pem file when using an external SSL certificate
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityServerConfig.CertPassword">
+            <summary>
+            Password when using an external SSL certificate
+            </summary>        
+        </member>
+        <member name="M:Profinity.Model.Config.ProfinityServerConfig.IsHttpsEnabled">
+            <summary>
+            Checks if Https is configured on this web endpoint
+            </summary>
+            <returns>True if it is configured and false if not</returns>
+        </member>
+        <member name="M:Profinity.Model.Config.ProfinityServerConfig.HttpUrl">
+            <summary>
+            Returns the http URL for this web server instance
+            </summary>
+            <returns>A URL endpoint for http on this server</returns>
+        </member>
+        <member name="M:Profinity.Model.Config.ProfinityServerConfig.HttpsUrl">
+            <summary>
+            Returns the https URL for this web server instance
+            </summary>
+            <returns>A URL endpoint for https on this server</returns>
+        </member>
+        <member name="M:Profinity.Model.Config.ProfinityServerConfig.UrlsList">
+            <summary>
+            Returns a list of URL's as a string array
+            </summary>
+            <returns>The URL array</returns>
+        </member>
+        <member name="T:Profinity.Model.Config.ProfinityApiConfig">
+            <summary>
+            Configuration options for the API capabilities of Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityApiConfig.Enabled">
+            <summary>
+            Is the Profinity API interface enabled
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityApiConfig.Swagger">
+            <summary>
+            Is the Swagger UI enabled
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.WebServerConfig.Enabled">
+            <summary>
+            Is the built in Profinity HTTP/s Server enabled
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.WebServerConfig.HttpPort">
+            <summary>
+            Port that Profinity listens on, by default 18580
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.WebServerConfig.RestAPI">
+            <summary>
+            Profinity API server options, keep the current section when editing these settings
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityConfig.Version">
+            <summary>
+            Version of the Profinity Config file
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityConfig.ActiveProfile">
+            <summary>
+            What is the currently active profile being used by Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityConfig.ClientId">
+            <summary>
+            A unique client identified assigned to each Profinity instance.
+            It is important if you have multiple Profinity instances that they do not share the ClientId
+            as it is used to identify a uniqiue Profinity instance
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityConfig.AppSettings">
+            <summary>
+            Applications settings for Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityConfig.Options">
+            <summary>
+            Configuration options for Profinity
+            </summary>
+        </member>
+        <member name="M:Profinity.Model.Config.ProfinityConfig.#ctor(System.String)">
+            <summary>
+            Construct a Profinity Config and assign immediately the active profile
+            </summary>
+            <param name="activeProfile">If passed with a full path, only the Profile file name is stored</param>
+        </member>
+        <member name="P:Profinity.Model.Config.ProfinityUserConfig.Password">
+            <summary>
+            Password of the user that can log in to the Profinity Web Engine
+            </summary>
+        </member>
+        <member name="M:Profinity.Model.DBC.DatabaseCAN.GetIndexedMessages(System.String)">
+            <summary>
+            This method returns an indexed set of DbcMessages based on the messageNamePrefix that is passed in.
+            In the DBC database the messageName should appear as provided but also be followed immediately by the index, so for example
+            if the messageName is 'Thing0', the messageNamePrefix provided should be 'Thing' and the dictionary [0, DbcMessageOfThing] will be returned.
+            
+            If there are multiples like 'Thing0', 'Thing1', 'Thing2' then the dictionary returns multiple items, all indexed
+            </summary>
+            <param name="messageNamePrefix">MessageName you want to seach for, minus the index</param>
+            <returns>A dictionary of messages</returns>
+        </member>
+        <member name="M:Profinity.Model.DBC.DatabaseCAN.GetIndexedSignals(System.String,System.String)">
+            <summary>
+            Similar to GetIndexMessages except in this case the indexed values returned are the signals, the first index is for the messageName index
+            the second is for the signalName index
+            </summary>
+            <param name="messageNamePrefix">MessageName you want to search for, minus the index</param>
+            <param name="signalNamePrefix">SignalName you want to search for, minus the index</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Model.DBC.DatabaseCAN.GetIndexedSignalsFlatternMessages(System.String,System.String)">
+            <summary>
+            As per GetIndexedSignals, however this method then flattens all the signals and returns them as a single dictionary.
+            Effectively allows you to combine multiple messages in to a single dictionary of signals
+            </summary>
+            <param name="messageNamePrefix">MessageName you want to search for, minus the index</param>
+            <param name="signalNamePrefix">SignalName you want to search for, minus the index</param>
+            <returns>Flatterned, single dictionary of the signals returned from GetIndexedSignal</returns>
+        </member>
+        <member name="M:Profinity.Model.DBC.DbcMessage.AddSignal(System.String,System.String,System.Byte,System.Byte,Profinity.Model.DBC.DbcSignal.SignalValueType,System.Boolean,System.Double,System.Double)">
+            <summary>
+            This method is used to simplify inline construction of Signals as it handles the creation of the relationship to the parent automatically
+            </summary>
+            <param name="name">Name of Signal</param>
+            <param name="unit">Signal unit</param>
+            <param name="startBit">Start bit of Signal</param>
+            <param name="length">Length of Signal</param>
+            <param name="valueType">What type of value is this signal</param>
+            <param name="isBigEndian">Is this signal formatted as big endian</param>
+            <param name="factor">Should a factor (multiplier) be applied to this signal</param>
+            <param name="offset">Should an offset get applied to this signal</param>
+            <returns>A reference to the parent DBC Message</returns>
+        </member>
+        <member name="M:Profinity.Model.DBC.DbcNode.AddMessage(System.String,System.UInt32,System.Boolean)">
+            <summary>
+            Provides the same capability as Add Message but also adds the parent DBC structure, used to simplify creation for existing code for inline operations
+            </summary>
+            <param name="name">Message Name</param>
+            <param name="canId">CAN Id of Message</param>        
+            <param name="overwrite">Overwrite existing Message</param>
+        </member>
+        <member name="M:Profinity.Model.DBC.DbcSignal.PacketValue(Profinity.Comms.CANBus.CanPacket,System.UInt32)">
+            <summary>
+            Allows for the injection of a CanPacket rather than reading it from the CAN Service
+            </summary>
+            <param name="canPacket">CanPacket you want to read the DBC message / signal from</param>
+            <param name="milliSecondsValid">How many milliseconds is the data in this packet valid</param>
+            <returns>Value of this signal</returns>
+        </member>
+        <member name="T:Profinity.Model.Profile.ProfileUpdateResponse">
+            <summary>
+            This type is the response from the Profinity Config API when trying update to a new profile
+            </summary>
+        </member>
+        <member name="T:Profinity.Model.Profile.ProfinityProfileShowingActive">
+            <summary>
+            Class used to display the Profiles, showing which one is currently active
+            </summary>
+        </member>
+        <member name="M:Profinity.Model.Profile.ProfinityProfileShowingActive.#ctor(Profinity.Model.Profile.ProfinityProfile)">
+            <summary>
+            Class used to display the Profiles, showing which one is currently active
+            </summary>
+        </member>
+        <member name="M:Profinity.Model.Security.ProfinityUser.UserHasRole(Profinity.Model.Config.SecurityRoles)">
+            <summary>
+            Returns if this user has a security role
+            </summary>
+            <param name="roles">Role you want to check</param>
+            <returns>Yes or no</returns>
+        </member>
+        <member name="T:Profinity.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Profinity.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Profinity.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:Profinity.Scripting.ProfinityScriptVariables">
+            <summary>
+            Constructor for the Script Variables
+            </summary>
+            <param name="baseScriptEngine">The script engine that will execute these scripts</param>
+        </member>
+        <member name="M:Profinity.Scripting.ProfinityScriptVariables.#ctor(Profinity.Scripting.ScriptEngines.IProfinityScriptEngine)">
+            <summary>
+            Constructor for the Script Variables
+            </summary>
+            <param name="baseScriptEngine">The script engine that will execute these scripts</param>
+        </member>
+        <member name="F:Profinity.Scripting.ProfinityScriptVariables._ScriptEngine">
+            <summary>
+            The running script engine that is handling this script
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.Message">
+            <summary>
+            Default hello world style message you can use for testing
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.CANBus">
+            <summary>
+            Handle to the CAN Bus Engine
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.DBC">
+            <summary>
+            Handle to the DBC registry
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.Console">
+            <summary>
+            The console for this script
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.State">
+            <summary>
+            The state of this script
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.GlobalState">
+            <summary>
+            The global state of this script engine in Profinity
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.ScriptCancelled">
+            <summary>
+            An operation that the script can check to see if it has been cancelled
+            </summary>
+        </member>
+        <member name="P:Profinity.Scripting.ProfinityScriptVariables.Logger">
+            <summary>
+            Direct handle to the Profinity logger, not expected that the scripts will generally use this, but its available if necessary
+            </summary>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.LoadFile(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Loada script from a file
+            </summary>
+            <param name="filename">File containing the script</param>
+            <param name="createIfMissing">Creates the file from the template if it is missing on the file system</param>
+            <param name="overwrite">Overwrite any existing script in this engine</param>
+            <returns>Success / Failure</returns>
+            <exception cref="T:System.ArgumentNullException">Empty filename</exception>
+            <exception cref="T:System.InvalidOperationException">Invalid file extension</exception>
+            <exception cref="T:System.IO.FileNotFoundException">Script not found</exception>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.LoadScript(System.String,System.String,System.Boolean)">
+            <summary>
+            Loads the script passed in as a parameter
+            </summary>
+            <param name="script">The script to process</param>
+            <param name="filename">The scripts new filename</param>        
+            <param name="overwrite">Overwrite any existing script</param>
+            <returns>Success / Failure</returns>
+            <exception cref="T:System.ArgumentNullException">No script or an empty script was passed</exception>
+            <exception cref="T:System.InvalidProgramException">Script was unable to be compiled or is not valid</exception>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.TemplateScript">
+            <summary>
+            Returns a template script file that you can start developing from
+            </summary>
+            <returns>A valid script file</returns>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.Validate">
+            <summary>
+            Validates the code that has been passed to be good
+            </summary>
+            <returns>Success or Failure</returns>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.Compile">
+            <summary>
+            Compiles the code, allowing for performance improvements for tools that support that
+            </summary>
+            <returns>Success / Failure</returns>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.SetSharedCode">
+            <summary>
+            Sets up the shared variables that get applyed in to the scope of the script
+            </summary>
+            <returns>Success / Failure</returns>
+        </member>
+        <member name="M:Profinity.Scripting.ScriptEngines.BaseScriptEngine.PostLoad">
+            <summary>
+            Profiles an opportunity for the higher order script engines to make any final adjustments that they want to make
+            </summary>
+            <returns>Success / Failure</returns>
+        </member>
+        <member name="P:Profinity.Services.CanService.LatestCanPacketReceived">
+             <summary>
+             Latest CAN packet received by CAN id
+             </summary>
+            
+        </member>
+        <member name="P:Profinity.Services.CanService.ScheduledCanPackets">
+            <summary>
+            In memory store of all the Scheduled Can Packets
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.CanService.ImmediateMode">
+            <summary>
+            Immediate mode forces the CAN Service to immediately distribute the packet rather than batching things up.
+            This generally works better when testing as it allows us to build more synchronous test cases, it should not be used
+            in a production environment as it causes the whole engine to run synchronously
+            </summary>
+        </member>
+        <member name="F:Profinity.Services.CanService._immediatePacketMode">
+            <summary>
+            Packets with CAN Ids in this list will be sent immediately, this is similar to immediate mode, but unlike that mode
+            where everything is sent immediately, in this mode, only packets in this list will be sent immediately, note that use of
+            this mode triggers everything currently in the queue to be sent, this ensures in order delivery is maintained.
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.CanService.FailOnDuplicatePacket">
+            <summary>
+            Fail on Duplicate is a switch that causes the CAN Service to throw an exception if a duplicate CAN packet is received
+            This is only designed to be used in test cases where we may experience echo's or where we want to make sure that packets are not
+            being received multiple times.  It should never be used in a production environment as the unique ID for each CAN packet is tracked
+            which will result in memory leaks
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendImmediateModeOnForPacket(System.UInt32)">
+            <summary>
+            Adds a packet to be sent immediately upon receipt rather than sent as a batch as normally happens.
+            Note that when a packet is added to this list, it will cause the full delivery queue of packets waiting to be sent
+            to be immediately sent, this ensures in order delivery is maintained.
+            </summary>
+            <param name="canPacketId">Packet ID of the CAN packet that you want to send immediately</param>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendImmediateModeOffForPacket(System.UInt32)">
+            <summary>
+            Removes a CAN packet from the immediate mode list
+            </summary>
+            <param name="canPacketId"></param>
+        </member>
+        <member name="M:Profinity.Services.CanService.ResetImmediateModeForPackets">
+            <summary>
+            Clears all CAN packets from the immediate mode list
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.CanService.GetBestAdapterForCanId(System.UInt32,System.Collections.ObjectModel.Collection{Profinity.Comms.Adapters.ICanTrafficInterface.AdapterType},System.Boolean)">
+            <summary>
+            Uses the available information to determine which is the best adapter for the CanID that you are providing
+            </summary>
+            <param name="canId">CanID to serach for</param>
+            <param name="adapterTypeRequired">If you have a preferred set of AdapterTypes then provide them in order, with first match found will be returned</param>
+            <param name="includePacketSend">Also search through packets that have been sent to find the best interface</param>
+            <returns>The preferred interface for this CanID or null if no valid interface can be found</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.StartLoadRunner(System.Int32)">
+            <summary>
+            Starts running a simulated load through the Can Service engine, targeting packetsPerSecond throughput
+            </summary>
+            <param name="packetsPerSecondLoadTarget">The number of packets per second we want to target the load to.  The system tunes itself to this number over time if possible</param>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendScheduledPacket(Profinity.Services.ScheduledCanPacket)">
+            <summary>
+            Internal action, used by the scheduler to send the packet
+            </summary>
+            <param name="scheduledCanPacket">Scheduled CanPacket to send</param>
+            <returns>Action</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.AddScheduledCanPacket(Profinity.Comms.CANBus.CanPacket,System.UInt32,System.Boolean)">
+            <summary>
+            Adds a packet to the list of scheduled can packets to run
+            </summary>
+            <param name="canPacket">Packet to store</param>
+            <param name="IntervalMs">Millisecond interval to run it on, set to 0 if want to store it but not schedule it to run on a schedule</param>
+            <param name="exclusive">Set to true if you want this to be the only instance of that packet that can be stored</param>
+            <returns>True if the packet was added successfully, false if not</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendScheduledCanPacket(System.Int64)">
+            <summary>
+            Sends a scheduled packet once without changing the state of the scheduler, so if the packet is currently paused or stopped it remains in that state but is still sent once
+            </summary>
+            <param name="key">Key to the packet</param>
+            <returns>True if the packet was found in the scheduler and sent via at least 1 interface, false if not</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.StopScheduledCanPacket(System.Int64)">
+            <summary>
+            Stop sending a scheduled CAN Packet, if the packet was set to a 0 ms sechedule this has no impact, otherwise it stops the packet from being sent but keeps it in the store
+            </summary>
+            <param name="key">Key to the packet</param>
+            <returns>True if the packet was found and stopped, False if it could not be found</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.StartScheduledCanPacket(System.Int64)">
+            <summary>
+            Starts the scheduled CAN Packet, for packets that are actually scheduled, this will start the packet on that schedule, for packets with a 0ms schedule, calling this method will cause the packet to be send once.
+            </summary>
+            <param name="key">Key to the packet</param>
+            <returns>True if the packeted was found and scheduled or sent, false if not found or not sent</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.RemoveScheduledCanPacketByKey(System.Int64)">
+            <summary>
+            Removes a packet from the store using the key
+            </summary>
+            <param name="key">Key to remove</param>
+            <returns>True if the packeted was found and removed, false if not</returns> 
+        </member>
+        <member name="M:Profinity.Services.CanService.RemoveScheduledPacketsWithCanId(System.UInt32)">
+            <summary>
+            Removes all packets from the store with this CAN Id
+            </summary>
+            <param name="canId">CAN Id that you want to remove</param>
+        </member>
+        <member name="M:Profinity.Services.CanService.RemoveAllScheduledPackets">
+            <summary>
+            Removes all packets from the store
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendMessage(Profinity.Comms.CANBus.CanPacket)">
+            <summary>
+            Sends a CAN Packet on every interface
+            </summary>
+            <param name="canPacket">CAN Packet to send</param>
+            <returns>The number of packets sent, for multiple interfaces this may well be greater than one as each interface is counted</returns>
+            <exception cref="T:System.ArgumentNullException">A valid CAN Packet (not null) must be provided</exception>
+        </member>
+        <member name="M:Profinity.Services.CanService.SendMessage(Profinity.Comms.CANBus.CanPacket,Profinity.Comms.Adapters.ICanTrafficInterface)">
+            <summary>
+            Sends a CAN Packet on the specificed interface if one is provided
+            </summary>
+            <param name="canPacket">CAN Packet to send</param>
+            <param name="canTrafficInterface">Interface to send the packet on, if no interface is provided the packet is sent on all interfaces</param>
+            <returns>The number of packets sent, for multiple interfaces this may well be greater than one as each interface is counted</returns>
+            <exception cref="T:System.ArgumentNullException">A valid CAN Packet (not null) must be provided</exception>
+        </member>
+        <member name="M:Profinity.Services.CanService.SafeToSendCANId(System.UInt32,System.UInt32)">
+            <summary>
+            Checks to see if we are going to have a conflict if we start sending a message on this canId
+            This check is done by seeing if we are already seeing that CAN Bus message from someone on the network if we are not sending it
+            Note that this is not going to always give a reliable answer as we can't always tell the source of the packet
+            </summary>
+            <param name="canId">What CAN bus Id do you want to check for</param>
+            <param name="milliValid">Optional how many milliseconds would a received packet be valid for, this can help exclude old packets</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.LatestReceivedCanPacketById(System.UInt32)">
+            <summary>
+            Returns the latest Received CanPacket regardless of interface
+            </summary>
+            <param name="canId">CanId we are looking for</param>
+            <returns>CanPacket or null if one is not found</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.LatestSentCanPacketById(System.UInt32)">
+            <summary>
+            Returns the latest sent CanPacket regardless of Interface
+            </summary>
+            <param name="canId">CanId we are looking for</param>
+            <returns>CanPacket or null if one is not found</returns>
+        </member>
+        <member name="M:Profinity.Services.CanService.LoadRunnerLoop(System.Object)">
+            <summary>
+            Runs a simulated load through the service
+            </summary>
+            <param name="cancelToken">Cancellation Token to cancel the load test</param>
+        </member>
+        <member name="T:Profinity.Services.ConfigService">
+            <summary>
+            The ConfigService manages the Profinity Configuration and can be used
+            to get configuration information about the running system.
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.ConfigService.ReadOnly">
+             <summary>
+             When running in Read Only mode Profinity will not attempt to update the Profile file
+             this mode is designed particually for background service modes such as Windows Service, SystemD or Docker
+             when running in these modes Profinity is often running at a high level of security and can end up updating files in a way
+             that prevents them from later being changed by the user.
+            
+             In Read Only mode it is expected that the user is updating the files outside of Profinity and the change detection logic
+             will pick that up.
+             </summary>        
+        </member>
+        <member name="P:Profinity.Services.ConfigService.Configuration">
+            <summary>
+            The main Profinity Configuration is stored in this Configuration variable
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.ConfigService.Instance">
+            <summary>
+            Returns an instance of the Configuration service
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.ConfigService.LoadConfig(Profinity.Model.Config.ProfinityConfig)">
+            <summary>
+            Load the Profinity Configuration.  It is possible to load the configuration in one
+            of two ways.  If a configuation object is passed as a parameter, then that configuration
+            is adopted.  Otherwise Profinity will try and load the last valid configuration from the file system.
+            Passing in the configuration as a parameter is mainly used for testing purposes as it allow
+            us to drive the configuration easily in a numner of different ways.  Typically the configuration
+            comes from the file system.
+            </summary>
+            <param name="configuation">A valid configuration to load</param>        
+            <returns>True if the configuation is successfully set or loaded, False if not</returns>
+        </member>
+        <member name="M:Profinity.Services.ConfigService.NewConfigIfRequired">
+            <summary>
+            Creates a new Configuation file if one is required
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.ConfigService.SaveConfig">
+            <summary>
+            Saves the configuration to the Config.yaml file
+            </summary>
+            <returns>True if the file is successfully save, false if not</returns>
+        </member>
+        <member name="P:Profinity.Services.DataService.Instance">
+            <summary>
+            Returns an instance of the Data service
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.DataService.AddTimeseriesDataSource(Profinity.Services.DataSource)">
+            <summary>
+            Datasource to track
+            </summary>
+            <param name="dataSource">The datasource you want time series data on</param>
+        </member>
+        <member name="M:Profinity.Services.DataService.RemoveTimeseriesDataSource(Profinity.Services.DataSource)">
+            <summary>
+            Remove the datasource if it is no longer required
+            </summary>
+            <param name="dataSource">Datasource key, not the actual datasource as we use late binding</param>
+            <returns></returns>
+        </member>
+        <member name="P:Profinity.Services.DiscoveredAdapter.CanAdapter">
+            <summary>
+            Details of the actual adapter
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.DiscoveredAdapter.TimeLastSeen">
+            <summary>
+             When did we last see this adapter via a heartbeat
+            </summary>
+        </member>
+        <member name="F:Profinity.Services.DiscoveryService.DISCOVERY_TIMEOUT">
+            <summary>
+            How long should we keen a discovered adapter in our list, default is 10 seconds or 10000 milliseconds
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.DiscoveryService.TimeoutAdapters">
+            <summary>
+            Remove adapters on the timeout interval, usually this is only disabled for testing so that we get consistent results on test cases
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.DiscoveryService.AvailableAdapters">
+            <summary>
+            Available Adapters creates a merged view of the currently available adapters
+            This method has a secondary purpose of also cleaning up any adapters that have expired (not been seen since the timout interval)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Services.LogService.InjectRecentTestMessage(Profinity.Services.LogMessage)">
+            <summary>
+            This method is used to inject LogMessages for testing, it should not generally be called
+            </summary>
+            <param name="message">Log message you want to inject</param>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.ActiveComponentsCount">
+            <summary>
+            Number of loaded, active, components in this profile
+            </summary>
+            <returns>Number of components</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.IsComponentAvailable(Profinity.Components.IProfinityComponent)">
+            <summary>
+            Checks if this component is available in the currently active profile, the component itself may not be active
+            </summary>
+            <param name="component">Component that you want to check for</param>
+            <returns>True or False</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.IsComponentAvailable(System.String)">
+            <summary>
+            Checks if this component is available in the currently active profile, the component itself may not be active
+            </summary>
+            <param name="componentName">Component that you want to check for</param>
+            <returns>True or False</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.GetActiveComponentByName(System.String)">
+            <summary>
+            Finds an active component in the system by the component name (as defined in the Profile) and returns that component.
+            </summary>
+            <param name="componentId">The component name that you are looking up</param>
+            <returns>The component or null if no component can be found</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.CreateActiveProfile(System.String,System.String)">
+            <summary>
+            Creates a new profile and saves it to disk
+            </summary>
+            <param name="profileName">New profile name, if a full path or an extension is passed, we remove it</param>
+            <param name="profileDescription">New profile description, if left null the default description is used</param>
+            
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.RenameActiveProfile(System.String)">
+            <summary>
+            Renames the profile to a new profile and file name
+            </summary>
+            <param name="newName">The new profile name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.UpdateActiveProfile(Profinity.Model.Profile.ProfinityProfile)">
+            <summary>
+            Updates the active profile to the provided argument, and saves to disk
+            </summary>
+            <param name="profinityProfile">The new profile object to load in</param>
+            <returns>Profile loaded successfully</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.LoadProfile(System.String,System.String)">
+            <summary>
+            Loads a profile package in to the engine
+            </summary>
+            <param name="profileName">Full file path to the profile package</param>
+            <param name="profileFileNameOverride">Optional parameter that allows the caller to force a different filename than the standard Profile.pprof</param>
+            <returns>Profile loaded successfully</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.SaveProfile(System.String,System.String)">
+            <summary>
+            Saves an active profile file to disk
+            </summary>
+            <param name="profileName">Optional profile file name, if not supplied the current profile file name is used</param>
+            <param name="profileFileNameOverride">Optional parameter that allows the caller to force a different filename than the standard Profile.pprof</param>
+            <returns>Profile successfully saved or not</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.DownloadProfileJSON(System.String)">
+            <summary>
+            Processes a downloaded profile file and loads it, the file is passed as a JSON formatted string
+            </summary>
+            <param name="jsonProfile">Profile file in a JSON format</param>
+            <returns>Successfully loaded the file</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.DeactiveAllComponents">
+            <summary>
+            Deactivates all components in a profile by running the PreRemove method on the component
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.ProfileService.StopProfileUpdateWatcher">
+            <summary>
+            Stops the background profile watcher used for auto updating the profile when it is saved to disk
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.ProfinityEngineService.Startup(System.Boolean)">
+            <summary>
+            Starts the engine running
+            </summary>
+            <returns>Outcome of the Startup Request</returns>
+        </member>
+        <member name="M:Profinity.Services.ProfinityEngineService.Shutdown(System.Boolean)">
+            <summary>
+            Shutsdown the Profinity Engine
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.ProfinityEngineService.Restart">
+            <summary>
+            Restart the Profinity engine by stopping it, rerunning the setup and starting it again
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Profinity.Services.ScriptService.GlobalState">
+            <summary>
+            Global state is a Profinity Script State object that is shared across all scripts in the system, allowing interscript communication
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.ScriptService.Instance">
+            <summary>
+            Returns an instance of the Scripting service
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.UserService.SecurityConfiguration">
+            <summary>
+            Usernames and password for the Profinity Server
+            </summary>
+        </member>
+        <member name="P:Profinity.Services.UserService.Instance">
+            <summary>
+            Returns an instance of the User service
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.UserService.LoadSecurityConfig(Profinity.Model.Config.ProfinitySecurityConfig)">
+            <summary>
+            Load the Profinity Security Configuration.  It is possible to load the configuration in one
+            of two ways.  If a configuation object is passed as a parameter, then that configuration
+            is adopted.  Otherwise Profinity will try and load the last valid configuration from the file system.
+            Passing in the configuration as a parameter is mainly used for testing purposes as it allow
+            us to drive the configuration easily in a numner of different ways.  Typically the configuration
+            comes from the file system.
+            </summary>
+            <param name="security">A valid security configuration to load</param>
+            <returns>True if the security configuation is successfully set or loaded, False if not</returns>
+        </member>
+        <member name="M:Profinity.Services.UserService.NewSecurityConfigIfRequired">
+            <summary>
+            Creates a new Configuation file if one is required
+            </summary>
+        </member>
+        <member name="M:Profinity.Services.UserService.SaveSecurityConfig">
+            <summary>
+            Saves the configuration to the Config.yaml file
+            </summary>
+            <returns>True if the file is successfully save, false if not</returns>
+        </member>
+        <member name="M:Profinity.Templates.TemplatesManager.LoadScriptTemplate(Profinity.Scripting.ScriptEngines.IProfinityScriptEngine.ScriptLanguage,System.String)">
+            <summary>
+            Loads a template script file out of the file system
+            </summary>
+            <param name="language">Should be either Python, CSharp, or Javascript case is important</param>
+            <param name="templateFileName">The Template Script filename</param>
+            <returns>The template if one exists</returns>
+        </member>
+        <member name="M:Profinity.Templates.TemplatesManager.LoadDBCTemplate">
+            <summary>
+            Loads a DBC template script file out of the file system
+            </summary>
+            <returns>The template if one exists</returns>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HeadersInfo">
+            <summary>
+            Table header information
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.MinValueToDisplay">
+            <summary>
+            Minimum value to show, if the value is lower we do not display it
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.MaxValueToDisplay">
+            <summary>
+            Maximum value to show, if the value is higher we do not display it
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HeatMap">
+            <summary>
+            Show the heatmap for this table
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HighlightMin">
+            <summary>
+            Highlight the minimum value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HighlightMax">
+            <summary>
+            Highlight the maximum value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HighlightAtOrAbove">
+            <summary>
+            Highlight anything equal to or above this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HighlightAtOrBelow">
+            <summary>
+            Highlight anything at or below this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.HighlightIfEqualTo">
+            <summary>
+            Highlight if equal to this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.AlertAtOrAbove">
+            <summary>
+            Alert anything equal to or above this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.AlertAtOrBelow">
+            <summary>
+            Highlight anything at or below this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.AlertIfEqualTo">
+            <summary>
+            Alert if equal to this value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.DisplayPositive">
+            <summary>
+            Display the values as positive, even if they are negative values
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.ConversionFactor">
+            <summary>
+            Conversion factor when displaying values
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.ComponentViews.Common.Table.decimalPlaces">
+            <summary>
+            Decimal places
+            </summary>
+        </member>
+        <member name="M:Profinity.UserInterface.Factories.FirmwareActionFieldDataFactory.FieldData(Profinity.Model.Security.ProfinityUser,Profinity.Components.IProfinityComponent,System.String)">
+            <summary>
+            Creates a JSON object to represent the firmware utilities
+            </summary>
+            <param name="profinityUser">The calling user</param>
+            <param name="component">Firmware object that you wish to evaluate</param>
+            <param name="prefix">Prefix for the field when generated</param>
+            <returns>A tab with the firmware utilities in it</returns>
+        </member>
+        <member name="M:Profinity.UserInterface.Models.FieldValueUtils.IsNumber(System.Type)">
+            <summary>
+            Determines if the type passed in is a number, yes I know and no there is not another better way to do it that I have found
+            </summary>
+            <param name="value">The type you want to check</param>
+            <returns>True if it is a number</returns>
+        </member>
+        <member name="P:Profinity.UserInterface.Models.SourceValuePair.TransmittedValueHash">
+            <summary>
+            Used to check if the transmitted value has changed from the current value
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.Models.FieldData.Section">
+            <summary>
+            A section sits above a category and in the WebUI a section becomes a tab 
+            It is not sent to the UI, but rather just used during the metadata generation process.
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.Models.FieldData.SectionOrder">
+            <summary>
+            Sections can provide an order value, this can only be set once, when producing the final collection once set any other values are ignored in the sections
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.Models.FieldData.Category">
+            <summary>
+            A category sits below a section and allows you to divide up settings in to groups, it aligns to a category in a WinForms Property Grid or a grouped set of settings on a
+            tab in the WebUI.  It is not sent to the UI, but rather just used during the metadata generation process.
+            </summary>
+        </member>
+        <member name="P:Profinity.UserInterface.Models.FieldData.CategoryOrder">
+            <summary>
+            Categories can provide an order value, this can only be set once, when producing the final collection once set any other values are ignored in the category
+            </summary>
+        </member>
+        <member name="M:Profinity.Utilities.Attributes.AttributeUtils.FirmwareAttributes(System.Object,System.String)">
+            <summary>
+            Returns the custom attributes for the provided, set via the annotation using the ProhelionFirmwareAttribute tag
+            </summary>
+            <param name="firmwareObject">Object that holds the firmware property</param>
+            <param name="propertyName">Name of the property</param>
+            <returns>The custom annotation object</returns>
+            <exception cref="T:System.ArgumentException">A valid property name must be passed</exception>
+        </member>
+        <member name="M:Profinity.Utilities.Attributes.AttributeUtils.HexAttribute(System.Reflection.PropertyInfo)">
+            <summary>
+            If the property has an attached HexConverter then return true
+            </summary>
+            <param name="propertyInfo">Property Info to check</param>        
+            <returns>
+            True if this is an Hex Converter tagged attribute
+            </returns>
+        </member>
+        <member name="M:Profinity.Utilities.BitOperations.BitHelper.IsBitSet``1(``0,System.Int32)">
+            <summary>
+            Returns whether the bit at the specified position is set.
+            </summary>
+            <typeparam name="T">Any integer type.</typeparam>
+            <param name="t">The value to check.</param>
+            <param name="pos">
+            The position of the bit to check, 0 refers to the least significant bit.
+            </param>
+            <returns>true if the specified bit is on, otherwise false.</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.EnvironmentParse(System.String)">
+            <summary>
+            Parses a YAML based profile replacing any environment variables 
+            </summary>
+            <param name="fileContents">Profile file that may contain enviroment variables in the format ${environment_variable}</param>
+            <returns>Profile file that changes any environment variables that it can fine</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.RangePattern(System.ComponentModel.DataAnnotations.RangeAttribute,System.Double)">
+            <summary>
+            Converts a Range Attribute in to the format used by the Web Front end
+            </summary>
+            <param name="range">Range Attribute to convert</param>
+            <param name="scaler">Amount to scale the range values by</param>
+            <returns>Format as used by the front end</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SettingsProperties(System.Object)">
+            <summary>
+            Returns the properties of each valid Prohelion Settings Attribute in the class
+            </summary>
+            <returns>Collection of PropertyInfo with the valid properties</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SetValues(System.Reflection.PropertyInfo,System.Object,System.Object)">
+            <summary>
+            Sets the value on an object property based on its type
+            </summary>
+            <param name="propertyInfo">PropertyInfo on the property you wish to set</param>
+            <param name="target">Object you want to operate on</param>
+            <param name="value">Value you wish to set</param>        
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SettingsToFieldData(System.Object,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.FieldData},System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Recursively iterate through a settings object and create a collection of FieldData to return
+            </summary>
+            <param name="settings">The settings object that you want to iterate through</param>
+            <param name="fields">A colection of fields that are build through this process, this must be instantiated before being called</param>
+            <param name="settingsParent">A prefix for the setting that reflects the object structure to get here for example profinity.Thing</param>
+            <param name="section">Optional section that can be added to group the settings, this results in a tab</param>
+            <param name="sectionOrder">Optional section order that can be added to group the settings, this results in a tab being set in a particular order</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SettingsToTabs(System.Object,System.String)">
+            <summary>
+            Supports the creation of multiple tabs to handle complex settings objects
+            </summary>
+            <param name="propertiesObject">The settings object to evaluate</param>        
+            <param name="section">A section that can be applied to create this tab, if null the default section is used</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SafeJSONToSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair},Profinity.Utilities.Configuration.IProfinitySettings,System.Boolean)">
+            <summary>
+            SafeJSONToSettings uses a two phase commit style approach to safely set the settings from a JSON file.
+            Firstly it does a deep clone on the settings object, makes the changes and runs the validation checks
+            Only if the validation passes does it make the actual changes. If it fails it passes the validation failures
+            back before setting the actual object.  
+            
+            This ensures that the underlying object does not get half set or set with issues that would cause validation errors
+            </summary>
+            <param name="settings">A collection of settings to be set</param>
+            <param name="prohelionSettings">The settings object to set it on</param>
+            <param name="validateOnly">Only runs the validation or prepare phase and returns the results, no commit or changes are made, this is generally only used in a multiphase update such as an update to both settings and firmware</param>
+            <exception cref="T:System.ArgumentNullException">You must provide valid settings and a object to set the settings on</exception>
+            <exception cref="T:System.InvalidOperationException">Occurs when you attempt to set the value of something that cannot be set</exception>
+            <returns>A set of validation errors if errors have occured</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.JSONToSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair},Profinity.Utilities.Configuration.IProfinitySettings)">
+            <summary>
+            Sets the values in a settings object based on the SourceValuePair collection that is passed in, handles recursive settings
+            </summary>
+            <param name="settings">A collection of settings to be set</param>
+            <param name="prohelionSettings">The settings object to set it on</param>
+            <exception cref="T:System.ArgumentNullException">You must provide valid settings and a object to set the settings on</exception>
+            <exception cref="T:System.InvalidOperationException">Occurs when you attempt to set the value of something that cannot be set</exception>
+            <returns>A set of validation errors if errors have occured</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.FirmwareSettingsToFieldData(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager,Profinity.Utilities.Configuration.FirmwareVisible)">
+            <summary>
+            Converts a Firmware object to JSON, not that because we do not currently support recursion in Firmware objects, this method will only ever return a single Tab
+            </summary>
+            <param name="firmwareManager">Firmware object that you wish to evaluate</param>
+            <param name="forceFirmwareSettings">Return the firmware values even if they have not been loaded, this should generally only be used for testing</param>        
+            <returns>A tab with the settings in it</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.InformationField(System.String,Profinity.UserInterface.Models.InformationType,System.String,System.String)">
+            <summary>
+            Generates a Information field to display information
+            </summary>
+            <param name="category">Tab category</param>
+            <param name="type">Type of message box</param>
+            <param name="header">Message box header</param>
+            <param name="message">Message box test</param>
+            <returns>A field that can be added like a normal field</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.FirmwareSettingsToTabs(Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager,Profinity.Utilities.Configuration.FirmwareVisible)">
+            <summary>
+            Supports the creation of multiple tabs to handle complex firmware settings objects
+            </summary>
+            <param name="firmwareSettings">The settings object to evaluate</param>
+            <param name="forceFirmwareSettings">Force the firmware to return, even if not loaded, this should really only be used when testing</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.FirmwareUtilsToTabs(Profinity.Model.Security.ProfinityUser,Profinity.Components.IProfinityComponent)">
+            <summary>
+            Converts the firmware utilities settings to a Firmware Utilities tab
+            </summary>
+            <param name="profinityUser">User that made the call, used to check security</param>
+            <param name="component">Component that this relates to</param>
+            <returns>A utilities setting tab(s)</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.SafeJSONToFirmwareSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair},Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager,System.Boolean)">
+            <summary>
+            Take an input JSON file and saves it in to the firmware settings object
+            </summary>
+            <param name="settings">The settings to save</param>
+            <param name="prohelionFirmwareManager">A prohelion firmware manager for this settings object</param>
+            <param name="validateOnly">If true this method will not actually save anything, rather just check that it can save without errors</param>
+            <returns>A collection of responset settings save fields that can be returned to the UI</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.JSONToFirmwareSettings(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair},Profinity.Components.Devices.Prohelion.Firmware.Common.ProhelionFirmwareSettingsManager)">
+            <summary>
+            Takes a JSON message and sets the value on the firmware object, note that this method does not perform the save, that must be done seperately, this method just settings the properties
+            and validates that they are all correct
+            </summary>
+            <param name="settings">Settings that you want to update</param>
+            <param name="prohelionFirmwareSettings">The firmware onject that you want to update them on</param>
+            <exception cref="T:System.ArgumentNullException">You must provide a valid firmware object and settings object to do the update</exception>
+            <exception cref="T:System.InvalidOperationException">Error occured while setting the property</exception>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.ComponentToTabs(Profinity.Model.Security.ProfinityUser,Profinity.Components.IProfinityComponent,Profinity.Utilities.Configuration.FirmwareVisible)">
+            <summary>
+            Takes a component and returns both the settings for that component as well as the firmware settings if they are available
+            </summary>
+            <param name="profinityUser">The calling Profinity user</param>
+            <param name="component">A valid Profinity component</param>
+            <param name="showFirmware">Include the firmware settings if they are available</param>
+            <returns>FieldGroups with one set of settings and possibly one of firmware</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Profinity.Utilities.Configuration.ConfigUtils.JSONToComponent(System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.SourceValuePair},Profinity.Components.IProfinityComponent,System.Collections.ObjectModel.Collection{Profinity.UserInterface.Models.ResponseSettingsSaveField}@)">
+            <summary>
+            Takes a JSON model and applies it back to the component, covering both the Settings object and Firmware if they are both proivded or just the settings object if that is the only thing provided
+            </summary>
+            <param name="sourceValuePairs">A collection of source value pairs containing setttings values from the GUI</param>
+            <param name="component">The component to apply the settings to</param>
+            <param name="settingsResults">Returns the results of any setting errors</param>
+            <returns>Information on what settings where updated</returns>
+            <exception cref="T:System.ArgumentNullException">You must provide a valid component for this to work</exception>
+            <exception cref="T:System.InvalidOperationException">Occurs if you try to set firmware values on a device that does not support it</exception>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.BooleanJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Boolean,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Don't translate on the write, this only exists to handle the fact that sometimes systems send us booleans as strings
+            </summary>
+            <param name="writer">The JSON Writer</param>
+            <param name="value">The value to write</param>
+            <param name="options">Any JSON Serialisation options</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.IpAddressJsonConverter.CanConvert(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="typeToConvert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.IpAddressJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.IpAddressJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Net.IPAddress,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.ProtocolJsonConverter.CanConvert(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="typeToConvert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.ProtocolJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.ProtocolJsonConverter.Write(System.Text.Json.Utf8JsonWriter,Profinity.Comms.Adapters.ICanTrafficInterface.AdapterProtocol,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSACryptoServiceProviderJsonConverter.CanConvert(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="typeToConvert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSACryptoServiceProviderJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSACryptoServiceProviderJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Security.Cryptography.RSACryptoServiceProvider,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSAJsonConverter.CanConvert(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="typeToConvert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSAJsonConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Conversion.RSAJsonConverter.Write(System.Text.Json.Utf8JsonWriter,System.Security.Cryptography.RSA,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfileValidation.ValidVersion(System.String)">
+            <summary>
+            Checks if the supplied version is valid with this release
+            </summary>
+            <param name="version">Profile version number</param>
+            <returns>True if valid, false if not</returns>
+        </member>
+        <member name="P:Profinity.Utilities.Profile.ProfinityProfileManager.ProfileManagerReadOnlyMode">
+             <summary>
+             When running in Read Only mode Profinity will not attempt to update the Profile file
+             this mode is designed particually for background service modes such as Windows Service, SystemD or Docker
+             when running in these modes Profinity is often running at a high level of security and can end up updating files in a way
+             that prevents them from later being changed by the user.
+            
+             In Read Only mode it is expected that the user is updating the files outside of Profinity and the change detection logic
+             will pick that up.
+             </summary>        
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.GetComponentByType(System.String)">
+            <summary>
+            Returns an instance of a component based on the component type
+            </summary>
+            <param name="componentType"></param>
+            <returns></returns>
+            <exception cref="T:Profinity.Exceptions.ProfinityException">Unable to create an instance of the component</exception>
+            <exception cref="T:System.ArgumentException">The type name provided is not valid</exception>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.ReadOnlyCheck">
+            <summary>
+            Checks to see if Profinity is operating in read only mode
+            </summary>
+            <returns>True if in read only mode, false if not</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.NextDefaultProfilePackage">
+            <summary>
+            Finds the next available Profile Package name
+            </summary>
+            <returns>A valid Profile Package name that is available</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.RenameProfile(System.String)">
+            <summary>
+            Does a basic profile renaming, doesn't involve the active profile so it's easier
+            If you are trying to rename an active profile use the rename method in the ProfileService
+            </summary>
+            <param name="newProfileName">New profile Package Name</param>
+            <returns>True if rename works, false if it doesn't</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.LoadProfile(System.String,System.String)">
+            <summary>
+            Loads a profile file in to the engine, normally loads Profile.pprof but by passing the profileFileNameOveride you can set different Profile Filenames
+            </summary>
+            <param name="profileName">Profile Package Name</param>
+            <param name="profileFileNameOverride">Override the default Profile.pprof filename</param>
+            <returns>Profile loaded successfully</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.LoadProfileJSON(System.String,System.String)">
+            <summary>
+            Loads a Profinity Profile that has been provided in a JSON format.
+            Internally all YAML formatted profiles are convered to JSON format.  Note that unlike a YAML profile
+            a JSON profile cannot contain environment variables
+            </summary>
+            <param name="profileName">Full path to the profile file</param>
+            <param name="profileFileNameOverride">By default the json filename is Profile.json, but this parameter allows you to override it</param>
+            <returns>File loaded successfully</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.SaveProfile(System.String,System.String)">
+            <summary>
+            Saves a profile file to disk
+            </summary>
+            <param name="profileName">Optional profile file name, if not supplied the current profile file name is used</param>
+            <param name="profileFileNameOverride">By default the json filename is Profile.pprof, but this parameter allows you to override it</param>
+            <returns>Profile successfully saved or not</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.LoadProfileYAML(System.String,System.String)">
+            <summary>
+            Loads a profile file that has been stored in the YAML format, also replaces any
+            environment variables in the format of ${ENVIRONMENT_VAR} with the value
+            of that actual environment variable
+            </summary>
+            <param name="profileName">Full path to the profile package</param>
+            <param name="profileFileNameOverride">By default the profile file loaded is Profile.pprof (a yaml file), but this parameter allows you to override this result</param>
+            <returns>Successfully loaded file</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.CreatePackage(System.String,System.String)">
+            <summary>
+            Creates a ppack package from the profilePackageFolder
+            </summary>
+            <param name="profileName">Profile that you want to package up</param>
+            <param name="outputDirectory">Output directory for the package</param>
+            <returns></returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.UnpackPackage(System.String,System.Boolean)">
+            <summary>
+            Unpacks a .ppack file in to the Profile directory
+            </summary>
+            <param name="profilePackFileName">Full path to the Profile Pack file</param>
+            <param name="cleanUpPack">Should the pack be removed after unpacking</param>
+            <returns>True on success, false on failure</returns>
+            <exception cref="T:System.IO.FileNotFoundException">The provided pack file name is invalid</exception>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.StopProfileUpdateWatcher">
+            <summary>
+            Stops the background profile watcher used for auto updating the profile when it is saved to disk
+            </summary>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.ProfileAsJSON(Profinity.Model.Profile.ProfinityProfile)">
+            <summary>
+            Returns a profile object in JSON format
+            </summary>
+            <param name="profinityProfile">Profinity Profile</param>
+            <returns>JSON formatted profile</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Profile.ProfinityProfileManager.ProfileAsYAML(Profinity.Model.Profile.ProfinityProfile)">
+            <summary>
+            Returns a profile object in YAML format
+            </summary>
+            <param name="profinityProfile">Profinity Profile</param>
+            <returns>YAML formatted profile</returns>
+        </member>
+        <member name="T:Profinity.Utilities.SCPI.SCPIHelper">
+            <summary>
+            SCPI is a industry standart for the support of programmable instruments
+            (Standard Commands for Programmable Instruments)
+            As there is a range of solutions in Profinity that use SCPI this helper provides a simple way to get
+            started talking to devices built on this standard
+            </summary>
+        </member>
+        <member name="M:Profinity.Utilities.SCPI.SCPIHelper.SCPICommand(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Send a SCPI command and get the results
+            </summary>
+            <param name="command">Command to send for example VOLT</param>
+            <param name="expectResponse">Is a response expected from the SCPI device</param>
+            <param name="silenceResponseWarning">Silence the response warning as there are a couple of scenarios where the ? does not indicate a resposne</param>
+            <returns>The SPCI result or empty string if no result is returned</returns>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.InitialState">
+            <summary>
+            Initial state of the state controller
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.SafeState">
+            <summary>
+            Defined safe state for this state machine, if an error occurs then generally we would transition to the stafe state
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.PreviousState">
+            <summary>
+            If there is a previous state then this is what it was.  Remains unset until there is a state transition
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.FailReason">
+            <summary>
+            Contains the reason for the last failure that occured in this Controller
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.CurrentCommand">
+            <summary>
+            The current command being sent to the state engine
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.StateCounter">
+            <summary>
+            Number of times we have updated the state but not moved between states
+            </summary>
+        </member>
+        <member name="P:Profinity.Utilities.StateMachine.StateController.StateDiagram">
+            <summary>
+            A diagram that can be rendered in Mermaid or plantUML to show the state of the system
+            </summary>
+        </member>
+        <member name="M:Profinity.Utilities.StateMachine.StateController.UpdateStatesUntilStableStateASync(Profinity.Utilities.StateMachine.BaseSystemInformation,System.Int32)">
+            <summary>
+            Keeps transitioning states until the tranition does not move states any more, hence we have reached the end of the transitions
+            </summary>
+            <param name="info">Base System Information</param>
+            <param name="maxTransitions">Maximum number of transitions that we want to do</param>
+            <returns>The final state that we end up in or the state we were in when the max transitions was reached</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Threading.AsyncUtilities.RunSync``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Handler to simplify the call of Async methods from a Sync service.
+            
+            Usage
+            
+            AsyncUtilities.RunSync(() => Foo());
+            var result = AsyncUtilities.RunSync(() => FooWithResult());
+            Task&lt;bool&gt; = AsyncUtilities.RunSync(() => FooWithBoolResult());
+            </summary>
+            <typeparam name="TResult">Returned Task result</typeparam>
+            <param name="func">ASync function</param>
+            <returns>Returned Task result</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Threading.AsyncUtilities.RunSync(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Handler to simplify the call of Async methods from a Sync service.
+            
+            Usage
+            
+            AsyncUtilities.RunSync(() => Foo());
+            var result = AsyncUtilities.RunSync(() => FooWithResult());
+            Task&lt;bool&gt; = AsyncUtilities.RunSync(() => FooWithBoolResult());
+            </summary>        
+            <param name="func">ASync function</param>
+            <returns>Returned Task result</returns>
+        </member>
+        <member name="M:Profinity.Utilities.Threading.AsyncUtilities.WaitAnyAsync(System.Threading.SemaphoreSlim[],System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously waits to enter any of the semaphores in the specified array.
+            </summary>
+        </member>
+    </members>
+</doc>
